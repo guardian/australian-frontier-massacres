@@ -7,14 +7,14 @@
 	bottom: 0px;
 	top:0px;
 	left: 0px;
-	background-color: #FFAF1C;
+	background-color: #92979b;
 	position: absolute;
 	box-sizing: border-box;
 	padding: 20px;
 	z-index: 9999999;
 
 	@include mq($until: tablet) {
-		width: calc(100% - 20px);
+		width: 100%;
 	}
 
 	@include mq($from: tablet) {
@@ -24,6 +24,57 @@
 	-webkit-box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
 	box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
+
+	.slider-death-count {
+		width: 100%;
+	}
+
+	.slider-death-count-box {
+		width: 25%;
+		height: 0px;
+		float: left;
+		padding-bottom: 25%;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	.slider-death-count-circle {
+		width: 90%;
+		margin: auto;
+		padding-bottom: 90%;
+		height: 0px;
+		color: white;
+		border-radius: 50%;
+		float: left;
+		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
+		cursor: pointer;
+		line-height: 14px;
+		font-size: 14px;
+		text-align: center;
+	}
+
+	.slider-death-count-box:nth-child(1) .slider-death-count-circle {
+		background-color: #38454F;
+	}
+
+	.slider-death-count-box:nth-child(2) .slider-death-count-circle {
+		background-color: orange;
+	}
+
+	.slider-death-count-box:nth-child(3) .slider-death-count-circle {
+		background-color: red;
+	}
+
+	.slider-death-count-box:nth-child(4) .slider-death-count-circle {
+		background-color: #6d0909;
+	}
+
+
+	.slider-death-count-label {
+	  position: relative;
+	  margin-top: 50%;
+	  transform: translateY(-50%);
+	}
 
 }
 

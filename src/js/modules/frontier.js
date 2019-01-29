@@ -255,6 +255,18 @@ export class Frontier {
 
         })
 
+        this.ractive.on('deathcount', (context, deathcount) => {
+
+            self.database.filterDeaths = deathcount;
+
+            self.getData().then( (data) => {
+
+                self.ractive.set(self.database)
+
+            })
+
+        })
+
         this.ractive.observe('proximity', ( proximity ) => {
 
             self.database.proximity = proximity
@@ -268,7 +280,6 @@ export class Frontier {
             }
 
         })
-
 
         this.ractive.on( 'results', function ( context ) {
 
@@ -284,12 +295,9 @@ export class Frontier {
 
             }
 
-
         });
 
         this.ractive.on( 'geo', function ( context ) {
-
-            //console.log(self.database.userLatitude,self.database.userLongitude)
 
             if (self.database.userLatitude!=null) {
 
@@ -329,24 +337,6 @@ export class Frontier {
             sharegeneral(channel);
 
         });
-
-        this.ractive.observe('filterDeaths', ( newValue, oldValue ) => {
-
-            self.database.filterDeaths = newValue;
-
-            if (oldValue != undefined) {
-
-                self.getData().then( (data) => {
-
-                    self.ractive.set(self.database)
-
-                })
-            }
-        });
-
-        //var scene = document.getElementById('parallax');
-
-        //var parallaxInstance = new Parallax(scene);
         
         this.googleizer()
 
