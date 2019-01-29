@@ -1,0 +1,50 @@
+@import "mq";
+@import "fonts";
+@import "palette";
+
+@import "leaflet";
+@import "MarkerCluster";
+@import "parallax";
+
+@import "containers";
+@import "topfive";
+@import "sidebar";
+@import "mode";
+@import "key";
+@import "results";
+@import "article";
+@import "more";
+@import "search";
+@import "map";
+@import "geolocation";
+@import "filter";
+@import "intro";
+@import "slider";
+@import "multiple";
+
+html,
+body,
+.element-atom,
+.interactive-atom {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+body, figure.interactive {
+    margin: 0;
+    padding: 0;
+}
+
+.interactive-container {
+    margin: 0 auto;
+    box-sizing: border-box;
+
+}
+
+
+#frontier_app {
+	width: 100%;
+}

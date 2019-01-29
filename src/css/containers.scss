@@ -1,0 +1,108 @@
+@import "mq";
+
+.parent-container {
+	width: 100%;
+	display: inline-block;
+	position: relative;
+}
+
+.application-container {
+
+	width: 100%;
+	display: inline-block;
+
+	.intro-container {
+		width: 100%;
+		background-color: #290003;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+
+	.navigation-container {
+		width: 100%;
+		
+		background-color: #38454F;
+
+		@include mq($until: tablet) {
+			height: 200px;
+		}
+
+		@include mq($from: tablet) {
+			height: 100px;
+		}
+
+	}
+
+	.navigation-bar {
+		box-sizing: border-box;
+		padding: 0px;
+		width: 100%;
+		height: 50px;
+		border-bottom: solid 1px  white;
+
+		@include mq($until: tablet) {
+			height: 100px;
+		}
+
+		@include mq($from: tablet) {
+			height: 50px;
+		}
+
+	}
+
+	.mode-container {
+		
+		height: 50px;
+		
+
+		@include mq($until: tablet) {
+			margin: auto;
+			width: 300px;
+		}
+
+		@include mq($from: tablet) {
+			width: 360px;
+			float: left;
+		}
+
+	}
+
+	.searchbox-container {
+		
+		height: 50px;
+		
+		overflow: visible;
+		z-index: 99999999;
+		position: relative;
+
+		@include mq($until: tablet) {
+			margin: auto;
+			width: 100%;
+		}		
+
+		@include mq($from: tablet) {
+			float: right;
+			width: 255px;
+			
+		}
+
+
+	}
+
+	.more-container {
+		height: 50px;
+		float: left;
+	}
+
+	.map-container {
+		width: 100%;
+		position: relative;
+	}
+
+	#map {
+		width: 100%;
+		position: absolute;
+	}
+
+	
+}

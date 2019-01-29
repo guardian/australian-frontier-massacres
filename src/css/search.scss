@@ -1,0 +1,92 @@
+@import "mq";
+
+.searchbox-container {
+
+    #searchbox {
+        
+        
+
+        @include mq($until: tablet) {            
+            width: calc( 100% - 20px);
+            height: 50px;
+                margin-left: 10px;
+        }       
+
+        @include mq($from: tablet) {
+            float: right;
+            padding-right: 10px;
+        }
+
+
+    }
+
+    .inputbox-holder {
+        
+        box-sizing: border-box;
+
+        @include mq($until: tablet) {
+            width: calc( 100% - 40px);
+        }       
+
+        @include mq($from: tablet) {
+           width: 200px;
+           padding-top: 7px;
+       }
+
+    }
+
+    #inputbox {
+        width: 100%;
+        height: 34px;
+        border-radius: 5px;
+        font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif; 
+        font-size: 1.1em;
+        line-height: 34px;
+        box-sizing: border-box;
+        padding-left: 10px;
+    }
+
+    #inputbox ul {
+        list-style-type: none;
+        width: 100%;
+        font-size: 1.1em;
+    }
+
+    #inputbox ul li {
+        width: 100%;
+        display: inline-block;
+        border-bottom: 1px dotted #999;
+    }
+
+    #results {
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+    }
+
+    #results ul {
+        list-style-type: none;
+        width: 100%;
+        font-size: 1.1em;
+        padding: 0px;
+        margin: 0px;
+        background-color: white;
+    }
+
+    #results li {
+        box-sizing: border-box;
+        background-color: #faad56;
+        color: black;
+        padding: 10px;
+        border-bottom: 1px solid black;
+        font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif; 
+        font-size: 14px;
+    }
+
+    #results li:hover {
+        color: white;
+        background-color: #e81856;
+        cursor: pointer;
+    }
+}

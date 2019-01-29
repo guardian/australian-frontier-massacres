@@ -1,0 +1,294 @@
+
+
+	<div class="parent-container">
+
+		<div class="parallax-container">
+
+			<div class="keyart" id="parallax"></div>
+
+				<div class="titlebox">The Frontier Wars</div>
+
+			<div class="grass"></div>
+
+		</div>
+
+		<div class="application-container">
+
+			<div class="intro-container">
+				
+				<div class="intro_block">
+					<p>The Australian frontier wars is a term applied by some historians to the fatal encounters between First Nation peoples and white settlers during the British colonisation of Australia. The first massacres took place shortly after the landing of the First Fleet in January 1788 and continued into the first half of the 20th century. You can contact us about this map at <a href="mailto:frontierwars@theguardian.com">frontierwars@theguardian.com</a></p>
+					<div class="timestamp">
+						Last updated: 24 January 2019
+					</div>
+					<div class="share-buttons">
+						<div class="social_isolation">
+							<button class="interactive-share" data-network="facebook"></button> 
+							<button class="interactive-share" data-network="twitter"></button>
+						</div>
+						<div class="about_database">
+							About the data
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="navbar" class="navigation-container">
+				
+				<div class="navigation-bar">
+
+					<div class="mode-container">
+
+						<div class="mode-label">Explore mode</div>
+					
+						<div class="mode-switch-box">
+							<label class="switch">
+							  <input type="checkbox" checked="{{proximity}}" id="mode-switch">
+							  <span class="slider round"></span>
+							</label>
+						</div>
+
+						<div class="mode-label">Proximity mode</div>
+
+					</div>
+
+					{{#if proximity}}
+
+					<div class="searchbox-container">
+
+						{{#if geolocation}}
+
+							<div class="geo-switch" on-tap="['geo']"></div>
+
+						{{/if}}
+
+			            <div id="searchbox">
+			                <div class="inputbox-holder">
+			                    <form autocomplete="off">
+			                        <input class="frontier-sr-only" id="inputbox" placeholder="Enter a postcode" size="90" type="text" value="{{user_input}}">
+			                    </form>
+			                    <div id="results">
+			                    	
+			                    	{{#if list}}
+									<ul>
+
+										{{#each postcodeShortlist}}
+
+										<li on-tap="['postcode', latitude, longitude]">{{meta}}</li>
+
+										{{/each}}
+
+									</ul>
+			                    	{{/if}}
+
+			                    </div>
+			                </div>
+			            </div>
+					</div>
+
+					{{/if}}
+
+
+				</div>
+
+				<div class="navigation-bar">
+
+					<div class="more-container">
+
+						<div class="more-switch-box">
+							<div class="more-switch" on-tap="['results']"></div>
+						</div>
+
+						<div class="more-label">Filter results</div>
+
+					</div>
+					
+					<div class="key-container">
+						 <div class="key">
+						 	<ul>
+						 		<li><div class="colour level1"></div> 6 to 10 deaths</li>
+						 		<li><div class="colour level2"></div> 11 to 20 deaths</li>
+						 		<li><div class="colour level3"></div> More than 20 deaths</li>
+						 	</ul>
+						 </div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="map-container" style="height:{{height}}px">
+
+				<div id="map" style="height:{{height}}px"></div>
+
+				<div id="legend" class="hideFilters">
+
+					<div class="slider-text">
+
+						Display selected <strong>date range</strong>
+
+					</div>
+					
+					<div class="slider_container">
+
+						<div class="annual left">{{DateStart}}</div>
+
+						<div class="filter_slider"></div>
+
+						<div class="annual right">{{DateEnd}}</div>
+
+					</div>
+
+					<div class="slider-text">Display massacres involving the following groups:</div>
+
+				    <div class="involvement-filter">
+
+				        <select id="casualties" value='{{specials}}' multiple ></select>
+
+				    </div>
+
+				</div>
+
+			</div>
+
+
+			{{#if topfive}}
+			<section id="frontier-results" class="frontier-results">
+				<div class="frontier-results-header">
+					<div class="frontier-container frontier-bg-grey">
+						<div class="frontier-container-inner">
+							<div class="topfive_container">
+
+								<p><strong>Nearby conflicts</strong></p>
+
+								<table cellspacing="0">
+									<tbody>
+										<tr >
+											<th class="table-results"></th>
+											<th class="table-results"></th>
+											<th class="table-results">Dead</th>
+											<th class="table-results">Distance (km)</th>
+										</tr>
+										{{#each topfive}}
+										<tr on-tap="['info', id]" class="massacre_row" data-massacre="{{id}}">
+											<td class="table-results" ></td>
+											<td class="table-results">{{Site_Name}}</td>
+											<td class="table-results">{{total_dead}}</td>
+											<td class="table-results">{{dist(distance)}}</td>
+										</tr>
+										{{/each}}
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{{else}}
+
+			<section class="frontier-results frontier-results--success">
+				<div class="frontier-results-header">
+					<div class="frontier-container frontier-bg-grey">
+						<div class="frontier-container-inner">
+							<div class="topfive_container">			
+
+								<p><strong>About the massacre map: </strong>Each circle on the map indicates the location of a fatal historial conflict between Indigenous Australians and settlers during the British colonisation of Australia. Click on a circle to view information about the conflict.</p>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{{/if}}
+
+			
+			{{#if massacre}}
+			{{#massacre}}
+			<section class="frontier-results" id="frontier-results">
+				<div class="frontier-results-list">
+					<div class="frontier-container">
+						<div class="frontier-container-inner">
+							<h2>{{Site_Name}}</h2>
+							{{#if Known_Date}}<h3>{{Known_Date}}</h3>{{/if}}
+							<div class="frontier-results-list-item frontier-results-list-item_sparkline">
+								<div class="frontier-container-col-66">
+									<p>{{{Narrative}}}</p>
+
+
+									{{#if article}}
+
+										{{#editorial}}
+
+											{{#if image}}
+
+												<div class="hero_image">
+
+													<img src="{{image.src}}">
+
+												</div>
+
+											{{/if}}
+
+											{{#if articlebody}}
+
+												{{#each articlebody}}
+
+													{{#if value.src}}
+
+														<div class="inline_image">
+
+															<img src="{{value.src}}">
+
+														</div>
+
+													{{else}}
+
+														<p>{{value}}</p>
+
+													{{/if}}
+
+												{{/each}}
+
+											{{/if}}
+
+										{{/editorial}}
+
+									{{/if}}
+
+								</div>
+								<div class="frontier-container-col-33">
+									<p><small>
+									{{#if Motive}}Motive: {{Motive}}<br/>{{/if}}
+									{{#if Aborig_Dead}}Aboriginal dead: {{Aborig_Dead}}<br/>{{/if}}
+									{{#if Coloniser_Dead}}Coloniser dead: {{Coloniser_Dead}}<br/> {{/if}}
+									{{#if Attacker_Category}}Attacker: {{Attacker_Category}}<br/>{{/if}}
+									{{#if Weapon_Used}}Weapons used: {{Weapon_Used}}{{/if}}
+									</small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="frontier-results-footer">
+					<div class="frontier-container">
+						<div class="frontier-container-inner text-right">
+							<button class="frontier-button" on-tap="['top']"><svg height="18" viewbox="0 0 24 18" width="24">
+							<path d="M.4 15.3l10.5-8.4L12 6l1.1.9 10.5 8.4-.5.7L12 9.7.9 16l-.5-.7z"></path></svg> Back to top</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			{{/massacre}}
+			{{/if}} 
+
+
+		</div>
+
+	</div>
+
+
+

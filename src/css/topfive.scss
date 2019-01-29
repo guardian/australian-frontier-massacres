@@ -1,0 +1,82 @@
+.topfive_container {
+	width: 100%;
+}
+
+.topfive_container table {
+	width: 100%;
+	font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-size: 14px;
+	cursor: pointer;
+  color: white;
+}
+
+.topfive_container tr td:nth-child(3), .topfive_container tr td:nth-child(4) { /* I don't think they are 0 based */
+   text-align: center;
+   width: 90px;
+   padding: 2px;
+}
+
+.topfive_container tr th:nth-child(3), .topfive_container tr th:nth-child(4) { /* I don't think they are 0 based */
+   text-align: center;
+   width: 90px;
+   font-size: 12px;
+}
+
+.topfive_container tr {
+	border-bottom: 1px dotted white;
+  margin-left: 5px;
+}
+
+.topfive_container td {
+  padding-left: 2px;
+}
+
+.topfive_container p {
+  color: white;
+  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.number_of_dead_1 {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px;
+  margin-left: -14px!important;
+  margin-top: -14px!important;
+  border-radius: 18px;
+  border: 2px solid orange;
+  text-align: center;
+  background-color: orange;
+  color: orange;
+  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 12px;
+}
+
+.number_of_dead_2 {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px;
+  margin-left: -14px!important;
+  margin-top: -14px!important;
+  border-radius: 18px;
+  border: 2px solid red;
+  text-align: center;
+  background-color: red;
+  color: red;
+  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 12px;
+}
+
+.number_of_dead_3 {
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px;
+  margin-left: -14px!important;
+  margin-top: -14px!important;
+  border-radius: 18px;
+  border: 2px solid #6d0909;
+  text-align: center;
+  background-color: #6d0909;
+  color: #6d0909;
+  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 12px;
+}

@@ -1,0 +1,36 @@
+@import "palette";
+@import "mq";
+
+
+#legend {
+	
+	bottom: 0px;
+	top:0px;
+	left: 0px;
+	background-color: #FFAF1C;
+	position: absolute;
+	box-sizing: border-box;
+	padding: 20px;
+	z-index: 9999999;
+
+	@include mq($until: tablet) {
+		width: calc(100% - 20px);
+	}
+
+	@include mq($from: tablet) {
+		width: 400px;
+	}
+
+	-webkit-box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 3px -2px 5px 0px rgba(0,0,0,0.75);
+
+}
+
+.hideFilters {
+	display: none;
+}
+
+.leaflet-top {
+	bottom: 0px;
+}

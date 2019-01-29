@@ -1,0 +1,70 @@
+@import "mq";
+
+.key-container {
+	float: right;
+	padding-right: 10px;
+	height: 50px;
+}
+
+.key-container .key {
+	float: left;
+	line-height: 50px;
+}
+@media (min-width: 61.25em) {
+	.key-container .key {
+
+	}
+}
+.key-container .key ul {
+	margin: 0;
+	display: inline;
+	padding: 0;
+	color: white;
+}
+.key-container .key li {
+	display: inline-block;
+	text-decoration: none;
+	margin: 0 6px;
+	vertical-align: middle;
+	
+	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+
+        @include mq($until: tablet) {
+            font-size: 10px;
+        }       
+
+        @include mq($from: tablet) {
+           font-size: 12px;
+       }
+
+
+}
+.key-container .key .colour {
+	vertical-align: middle;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	line-height: 50px;
+	display: inline-block;
+	margin-right: 4px;
+	margin-top: -4px;
+}
+@media (max-width: 61.24em) {
+	.key-container .key {
+		width: 100%;
+	}
+}
+@media (min-width: 61.25em) {
+	.key-container .key {
+		width: cacl(100% -300px);
+	}
+}
+.key-container .key .colour.level1 {
+	background-color: orange;
+}
+.key-container .key .colour.level2 {
+	background-color: red;
+}
+.key-container .key .colour.level3 {
+	background-color: #6d0909;
+}

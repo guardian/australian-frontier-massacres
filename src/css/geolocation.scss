@@ -1,0 +1,26 @@
+@import "mq";
+
+.geo-switch {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color: #FFAF1C;
+	margin-top: 10px;
+	cursor: pointer;
+	
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAwIDEwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwb2x5Z29uIHBvaW50cz0iNDcuNDUsNTMuNTggMTMuMyw0Ny44NSA4NywxNC4wMyA1MS4zNiw4NS45MiAiLz48L3N2Zz4=);
+	background-size: 90%;
+	background-position: left center;
+	background-repeat: no-repeat;
+
+	@include mq($until: tablet) {
+		float: right;
+		margin-right: 10px;
+	}
+
+	@include mq($from: tablet) {
+		float: left;
+	}
+
+}
+
