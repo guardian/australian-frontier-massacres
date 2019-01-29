@@ -105,6 +105,8 @@ export class Frontier {
 
         this.zoom = 5
 
+        this.zoomstart = 5
+
         this.map = null
 
         this.database = {
@@ -279,6 +281,18 @@ export class Frontier {
 
             }
 
+            if (!self.database.proximity) {
+
+                // Remove any circles or cluser stuff if the user switches to explore mode
+
+                if (self.rads != undefined && self.clusters != undefined) {
+
+                    self.removerStuff()
+
+                }
+
+            }
+
         })
 
         this.ractive.on( 'results', function ( context ) {
@@ -300,8 +314,6 @@ export class Frontier {
         this.ractive.on( 'geo', function ( context ) {
 
             if (self.database.userLatitude!=null) {
-
-                //console.log("Not null")
 
                 self.getClosest(self.database.userLatitude, self.database.userLongitude)
 
@@ -375,7 +387,7 @@ export class Frontier {
 
     geo_success(position) {
 
-        var self = this
+        //var self = this
 
         //self.database.userLatitude = position.coords.latitude
 
@@ -385,17 +397,21 @@ export class Frontier {
 
     }
 
-    geo_error() {
+    geo_error(error) {
+
+        /*
 
         var self = this
 
-        //console.log("Geolocation error")
+        console.log(error)
 
         self.database.geolocation = false
 
         navigator.geolocation.clearWatch(self.watchID);
 
         self.ractive.set(self.database)
+
+        */
 
     }
 
@@ -422,7 +438,7 @@ export class Frontier {
             scrollWheelZoom: false,
             dragging: true,
             zoomControl: true,
-            doubleClickZoom: false,
+            doubleClickZoom: true,
             zoomAnimation: true
         })
 
@@ -436,7 +452,44 @@ export class Frontier {
 
         }).addTo(self.map);
 
-        this.map.on('zoomend', function(e) {
+        /*
+        self.map.on('zoomend', function(e) {
+
+            self.zoomend = self.map.getZoom();
+
+            console.log(self.zoomstart + ' | ' + self.zoomend)
+
+            if (self.zoomend > self.zoomstart) {
+
+                for (var i = 0; i < self.array.length; i++) {
+
+                    console.log(self.array[i].getRadius())
+
+                    self.array[i].setRadius(self.array[i].getRadius() * 2);
+
+                }
+
+
+            } else {
+
+                for (var i = 0; i < self.array.length; i++) {
+
+                    self.array[i].setRadius(self.array[i].getRadius() / 2);
+
+                }
+
+            }
+
+            self.zoomstart = self.map.getZoom();
+
+        });
+
+        */
+
+
+        //this.map.on('zoomend', function(e) {
+
+            /*
 
             var zoom = self.map.getZoom();
 
@@ -446,7 +499,9 @@ export class Frontier {
 
             }
 
-        });
+            */
+
+      //  });
 
         this.map.on('click', function(e) {
 
@@ -559,7 +614,7 @@ export class Frontier {
 
     }
 
-    renderCircles(lat, lng) {
+    removerStuff() {
 
         var self = this
 
@@ -578,11 +633,31 @@ export class Frontier {
         }
 
 
+    }
+
+    renderCircles(lat, lng) {
+
+        var self = this
+
+        if(self.map.hasLayer(self.rads)){
+
+            self.rads.eachLayer(
+                function(l){ 
+                    self.rads.removeLayer(l);
+            });
+        }
+
+        if(self.map.hasLayer(self.clusters)){
+
+            self.map.removeLayer(self.clusters);
+
+        }
+
         var array = [];
 
         var countdown = 0.5
 
-        if (self.database.radial) {
+        if (self.database.proximity) { // self.database.radial
 
             for (var i = 0; i < self.database.topfive.length; i++) {
 
@@ -666,7 +741,6 @@ export class Frontier {
         (num < 21) ? '2' : '3' ;
     }
 
-
     topo() {
 
         function colourizer(num) {
@@ -696,7 +770,8 @@ export class Frontier {
                 opacity: 1,
                 fillColor: colourizer(item.total_dead),
                 fillOpacity: 1,
-                id: item.id //idcfv
+                id: item.id, //idcfv
+                radius: 1000
             });
 
             self.array.push(marker);
