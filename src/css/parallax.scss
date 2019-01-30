@@ -12,11 +12,48 @@
 	height: 0px;
 	padding-bottom: 40%;
 	overflow: hidden;
-	background-image: url("<%= path %>/assets/background.jpg");
 	background-size: cover;
-	background-color: red;
+	background-color: #290003;
 	/* background-repeat: repeat-x;
-	animation: slideleft 200s infinite linear; */
+	animation: slideleft 200s infinite linear; 
+
+    mobile:  320px,
+    tablet:  740px,
+    desktop: 980px,
+    leftCol: 1140px,
+    wide:    1300px,
+
+    // Tweakpoints
+    desktopAd: 810px,
+    mobileLandscape: 480px
+
+	*/
+
+	@include mq($until: mobile) {
+	    background-image: url("<%= path %>/assets/background_320.jpg");
+	}       
+
+	@include mq($from: mobile, $until: mobileLandscape) {
+	   background-image: url("<%= path %>/assets/background_480.jpg");
+	}
+
+	@include mq($from: mobileLandscape, $until: tablet) {
+	   background-image: url("<%= path %>/assets/background_740.jpg");
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+	   background-image: url("<%= path %>/assets/background_980.jpg");
+	}
+
+	@include mq($from: desktop) {
+	   background-image: url("<%= path %>/assets/background.jpg");
+	}
+
+
+
+
+
+
 
 }
 
