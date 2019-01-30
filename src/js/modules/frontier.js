@@ -80,8 +80,8 @@ export class Frontier {
             self.googledoc[i].Latitude = +self.googledoc[i].Latitude
             self.googledoc[i].Longitude = +self.googledoc[i].Longitude
             self.googledoc[i].idcfv = +self.googledoc[i].idcfv
-            self.googledoc[i].total_dead = +self.googledoc[i].Coloniser_Dead + +self.googledoc[i].Aborig_Dead
-            self.googledoc[i].year = moment(self.googledoc[i].DateStart, 'YYYY-MM-DD').format('YYYY');
+            self.googledoc[i].total_dead = +self.googledoc[i].Total_Dead_Mean //+self.googledoc[i].Coloniser_Dead + +self.googledoc[i].Aborig_Dead
+            self.googledoc[i].year = moment(self.googledoc[i].Date_Mid, 'YYYY-MM-DD').format('YYYY');
             self.googledoc[i].identities = []
             self.googledoc[i].article = (self.googledoc[i].Key!="") ? true : false ;
 
@@ -160,6 +160,8 @@ export class Frontier {
             filterSpecial: "",
 
             proximity: false,
+
+            logging: "Console log output for testing:<br/>",
 
             url: function(urlWeb) {
 
@@ -273,7 +275,6 @@ export class Frontier {
 
             self.database.proximity = proximity
             
-            self.ractive.set(self.database)
 
             if (self.database.geocheck) {
 
@@ -291,7 +292,11 @@ export class Frontier {
 
                 }
 
+                self.database.topfive = []
+
             }
+
+            self.ractive.set(self.database)
 
         })
 
@@ -374,7 +379,27 @@ export class Frontier {
 
                 self.database.userLongitude = position.coords.longitude
 
-                self.watchID = navigator.geolocation.watchPosition(self.geo_success, self.geo_error, geo_options);
+                self.watchID = navigator.geolocation.watchPosition(function(position){
+
+                    self.database.userLatitude = position.coords.latitude
+
+                    self.database.userLongitude = position.coords.longitude
+
+                    self.database.logging = self.database.logging += `${position.coords.latitude}, ${position.coords.longitude} <br/>`
+
+                    self.ractive.set(self.database)
+
+                }, function(error){
+
+                    self.database.logging = self.database.logging += JSON.stringify(error) + '<br/>'
+
+                    self.database.geolocation = false
+
+                    navigator.geolocation.clearWatch(self.watchID);
+
+                    self.ractive.set(self.database)
+
+                }, geo_options);
 
             });
         }
@@ -382,36 +407,6 @@ export class Frontier {
         self.database.geocheck = false
 
         self.ractive.set(self.database)
-
-    }
-
-    geo_success(position) {
-
-        //var self = this
-
-        //self.database.userLatitude = position.coords.latitude
-
-        //self.database.userLongitude = position.coords.longitude
-
-        //console.log(position.coords.latitude, position.coords.longitude);
-
-    }
-
-    geo_error(error) {
-
-        /*
-
-        var self = this
-
-        console.log(error)
-
-        self.database.geolocation = false
-
-        navigator.geolocation.clearWatch(self.watchID);
-
-        self.ractive.set(self.database)
-
-        */
 
     }
 
@@ -556,19 +551,6 @@ export class Frontier {
 
         };
 
-    }
-
-    zoomLevel(num) {
-        return (num < 11) ? '2500' :
-        (num < 10) ? '1250' :
-        (num < 9) ? '625' :
-        (num < 8) ? '321.5' :
-        (num < 7) ? '156.25' :
-        (num < 6) ? '78.125' :
-        (num < 5) ? '40' :
-        (num < 4) ? '20' :
-        (num < 3) ? '10' :
-        (num < 2) ? '5' : '5';
     }
 
     getClosest(lat, lng) {
@@ -723,14 +705,6 @@ export class Frontier {
 
         self.map.addLayer(self.clusters);
 
-        /*
-        var markers = L.markerClusterGroup();
-        markers.addLayer(L.marker(getRandomLatLng(map)));
-        ... Add more layers ...
-        map.addLayer(markers);
-        */
-
-
         self.rads = L.featureGroup(array).addTo(self.map);
 
 
@@ -767,11 +741,11 @@ export class Frontier {
 
             let marker = new L.circle([item.Latitude,item.Longitude], {
                 color: colourizer(item.total_dead),
-                opacity: 1,
+                opacity: 0.5,
                 fillColor: colourizer(item.total_dead),
-                fillOpacity: 1,
+                fillOpacity: 0.5,
                 id: item.id, //idcfv
-                radius: 1000
+                radius: 5000
             });
 
             self.array.push(marker);
@@ -787,6 +761,59 @@ export class Frontier {
 
         });
 
+        function test(id) {
+            console.log(id)
+        }
+
+        var tooltipTemplate = `<strong>{site}</strong><br />
+            <em>{date}</em><br /><br /> 
+            <strong>Motive:</strong> {motive}<br />
+            <strong>Aboriginal dead:</strong> {aboriginal}<br />
+            <strong>Coloniser dead:</strong> {coloniser}<br /><br />
+            <div class="readmore" data-id="{id}">Click to see full description</div>`;
+
+
+        self.massacres.on('mouseover', (e) => {
+
+            var id = e.layer.options.id
+
+            var massacre = self.googledoc.find( (item) => {
+
+                return item.id === id
+
+            });
+
+            var tooltipData = {  
+              site : massacre.Site_Name, 
+              date : (massacre.Known_Date!='') ? massacre.Known_Date : massacre.year,
+              motive: massacre.Motive,
+              aboriginal : massacre.Aborig_Dead_Mean,
+              coloniser : massacre.Coloniser_Dead_Mean,
+              id : id
+            };
+
+            var tooltipContent = L.Util.template(tooltipTemplate, tooltipData); 
+
+          var popup = L.popup()
+           .setLatLng(e.latlng) 
+           .setContent(tooltipContent)
+           .openOn(self.map);
+        });
+
+        self.map.on('popupopen', function() {  
+
+            var classname = document.getElementsByClassName("readmore");
+
+            for (var i = 0; i < classname.length; i++) {
+                classname[i].addEventListener('click', function(){
+
+                    self.loadMassacre(+this.getAttribute("data-id"))
+
+                }, false);
+            }
+
+        });
+
     }
 
     loadArticle(key) {
@@ -799,7 +826,7 @@ export class Frontier {
 
             self.ractive.set(self.database)
 
-            //self.scrollTo($("#frontier-results"), 200)
+            self.scrollTo($("#frontier-results"), 200)
 
         });
 
@@ -827,7 +854,7 @@ export class Frontier {
 
             self.ractive.set(self.database)
 
-            //self.scrollTo($("#frontier-results"), 2000)
+            self.scrollTo($("#frontier-results"), 200)
 
         }
 

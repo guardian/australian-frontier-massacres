@@ -219,7 +219,7 @@
 
 			{{else}}
 
-			<section class="frontier-results frontier-results--success">
+			<section id="frontier-results" class="frontier-results">
 				<div class="frontier-results-header">
 					<div class="frontier-container frontier-bg-grey">
 						<div class="frontier-container-inner">
@@ -243,7 +243,7 @@
 					<div class="frontier-container">
 						<div class="frontier-container-inner">
 							<h2>{{Site_Name}}</h2>
-							{{#if Known_Date}}<h3>{{Known_Date}}</h3>{{/if}}
+							{{#if Known_Date}}<h3>{{Known_Date}}</h3>{{else}}<h3>{{year}}</h3>{{/if}}
 							<div class="frontier-results-list-item frontier-results-list-item_sparkline">
 								<div class="frontier-container-col-66">
 									<p>{{{Narrative}}}</p>
@@ -293,10 +293,8 @@
 								<div class="frontier-container-col-33">
 									<p><small>
 									{{#if Motive}}Motive: {{Motive}}<br/>{{/if}}
-									{{#if Aborig_Dead}}Aboriginal dead: {{Aborig_Dead}}<br/>{{/if}}
-									{{#if Coloniser_Dead}}Coloniser dead: {{Coloniser_Dead}}<br/> {{/if}}
-									{{#if Attacker_Category}}Attacker: {{Attacker_Category}}<br/>{{/if}}
-									{{#if Weapon_Used}}Weapons used: {{Weapon_Used}}{{/if}}
+									{{#if Aborig_Dead_Mean}}Aboriginal dead: {{Aborig_Dead_Mean}}<br/>{{/if}}
+									{{#if Coloniser_Dead_Mean}}Coloniser dead: {{Coloniser_Dead_Mean}}<br/> {{/if}}
 									</small></p>
 								</div>
 							</div>
@@ -314,6 +312,8 @@
 			</section>
 			{{/massacre}}
 			{{/if}} 
+
+			<div id="console" class="console">{{#if logging}}{{{logging}}}{{/if}}</div>
 
 
 		</div>
