@@ -447,56 +447,19 @@ export class Frontier {
 
         }).addTo(self.map);
 
-        /*
+        // Set the circle radius depending on zoom level
+
         self.map.on('zoomend', function(e) {
 
-            self.zoomend = self.map.getZoom();
-
-            console.log(self.zoomstart + ' | ' + self.zoomend)
-
-            if (self.zoomend > self.zoomstart) {
-
-                for (var i = 0; i < self.array.length; i++) {
-
-                    console.log(self.array[i].getRadius())
-
-                    self.array[i].setRadius(self.array[i].getRadius() * 2);
-
-                }
-
-
-            } else {
-
-                for (var i = 0; i < self.array.length; i++) {
-
-                    self.array[i].setRadius(self.array[i].getRadius() / 2);
-
-                }
-
-            }
-
-            self.zoomstart = self.map.getZoom();
-
-        });
-
-        */
-
-
-        //this.map.on('zoomend', function(e) {
-
-            /*
-
-            var zoom = self.map.getZoom();
-
+            var radius = self.getRadius()
+    
             for (var i = 0; i < self.array.length; i++) {
 
-                self.array[i].setRadius(self.zoomLevel(zoom));
+                self.array[i].setRadius(radius);
 
             }
 
-            */
-
-      //  });
+        });
 
         this.map.on('click', function(e) {
 
@@ -523,6 +486,37 @@ export class Frontier {
         this.topo()
 
         this.appscroll()
+
+    }
+
+    getRadius() {
+
+        var self = this
+
+        var currentZoom = self.map.getZoom()
+
+        /*
+        The distance represented by one pixel (S) is given by
+
+        S=C*cos(y)/2^(z+8) where...
+
+        C is the (equatorial) circumference of the Earth
+
+        z is the zoom level
+
+        y is the latitude of where you're interested in the scale.
+        */
+
+
+        
+
+        var metresPerPixel = 40075016.686 * Math.abs(Math.cos(self.map.getCenter().lat)) / Math.pow(2, (self.map.getZoom()+8));
+
+        console.log(currentZoom + ' | ' + metresPerPixel)
+
+        var radius = metresPerPixel * 4
+
+        return radius
 
     }
 
@@ -723,6 +717,14 @@ export class Frontier {
 
         }
 
+
+        function borderizer(border) {
+
+            return (border) ? 0.5 : 0 ;
+
+        }
+
+
         var self = this
 
         if(self.map.hasLayer(self.massacres)) {
@@ -740,12 +742,12 @@ export class Frontier {
             var item = self.database.records[i];
 
             let marker = new L.circle([item.Latitude,item.Longitude], {
-                color: colourizer(item.total_dead),
-                opacity: 0.5,
+                color: 'black',
+                opacity: borderizer(item.article),
                 fillColor: colourizer(item.total_dead),
                 fillOpacity: 0.5,
                 id: item.id, //idcfv
-                radius: 5000
+                radius: self.getRadius()
             });
 
             self.array.push(marker);
