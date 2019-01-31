@@ -20,6 +20,22 @@
 
     }
 
+    .app-holder {
+        
+        box-sizing: border-box;
+
+        @include mq($until: tablet) {
+            width: 100%;
+        }       
+
+        @include mq($from: tablet) {
+           width: 200px;
+           padding-top: 7px;
+       }
+
+    }
+
+
     .inputbox-holder {
         
         box-sizing: border-box;

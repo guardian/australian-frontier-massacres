@@ -46,37 +46,45 @@ export class Frontier {
 
         this.googledoc = data
 
+        this.boundingbox = [{
+
+            "northEast" : { "lat": -10.935978, "lng": 154.641985 },
+
+            "southWest" : { "lat": -43.656082, "lng": 112.015037 }
+
+        }]
+
         this.identities =   [{
-                              value: "0",
-                              label: "Aboriginal Civilians",
-                              tag: "Aboriginal_Civilians",
-                              selected: true
-                            },{
-                              value: "1",
-                              label: "Aboriginal Warriors",
-                              tag: "Aboriginal_Warriors",
-                              selected: true
-                            },{
-                              value: "2",
-                              label: "Military / Police / Government",
-                              tag: "Military_Police_Government",
-                              selected: true
-                            },{
-                              value: "3",
-                              label: "Native Police",
-                              tag: "Native_Police",
-                              selected: true
-                            },{
-                              value: "4",
-                              label: "Settlers / Stockmen",
-                              tag: "Settlers_Stockmen",
-                              selected: true
-                            },{
-                              value: "5",
-                              label: "Colonial Civilians",
-                              tag: "Colonial_Civilians",
-                              selected: true
-                            }]
+          value: "0",
+          label: "Aboriginal Civilians",
+          tag: "Aboriginal_Civilians",
+          selected: true
+        },{
+          value: "1",
+          label: "Aboriginal Warriors",
+          tag: "Aboriginal_Warriors",
+          selected: true
+        },{
+          value: "2",
+          label: "Military / Police / Government",
+          tag: "Military_Police_Government",
+          selected: true
+        },{
+          value: "3",
+          label: "Native Police",
+          tag: "Native_Police",
+          selected: true
+        },{
+          value: "4",
+          label: "Settlers / Stockmen",
+          tag: "Settlers_Stockmen",
+          selected: true
+        },{
+          value: "5",
+          label: "Colonial Civilians",
+          tag: "Colonial_Civilians",
+          selected: true
+        }]
 
 
         for (var i = 0; i < self.googledoc.length; i++) {
@@ -168,6 +176,8 @@ export class Frontier {
 
             legend: (self.isMobile) ? true: false,
 
+            isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false ,
+
             logging: "Console log output for testing:<br/>",
 
             url: function(urlWeb) {
@@ -194,7 +204,7 @@ export class Frontier {
 
         }
 
-        this.database.logging = this.database.logging += "Mobile: " + (self.isMobile) ? true: false ;
+        this.database.logging = this.database.logging += `Mobile: ${(self.isMobile) ? true: false } <br/>` ;
 
         this.database.records = this.googledoc
 
@@ -437,37 +447,48 @@ export class Frontier {
 
             navigator.geolocation.getCurrentPosition(function(position) {
 
-                self.database.logging = self.database.logging += "Geolocation is supported<br/>";
+                if (self.boundingbox[0].northEast.lng >= position.coords.longitude && position.coords.longitude >= self.boundingbox[0].southWest.lng && self.boundingbox[0].northEast.lat >= position.coords.latitude && position.coords.latitude >= self.boundingbox[0].southWest.lat) {
 
-                self.database.userLatitude = position.coords.latitude
-
-                self.database.userLongitude = position.coords.longitude
-
-                self.watchID = navigator.geolocation.watchPosition(function(position){
+                    self.database.logging = self.database.logging += "Geolocation is supported<br/>";
 
                     self.database.userLatitude = position.coords.latitude
 
                     self.database.userLongitude = position.coords.longitude
 
+                    self.watchID = navigator.geolocation.watchPosition(function(position){
 
+                        self.database.userLatitude = position.coords.latitude
 
-                    self.database.logging = self.database.logging += `${position.coords.latitude}, ${position.coords.longitude} <br/>`
+                        self.database.userLongitude = position.coords.longitude
 
-                    self.ractive.set(self.database)
+                        self.database.logging = self.database.logging += `${position.coords.latitude}, ${position.coords.longitude} <br/>`
 
-                }, function(error){
+                        self.ractive.set(self.database)
 
-                    self.database.logging = self.database.logging += JSON.stringify(error) + '<br/>'
+                    }, function(error){
+
+                        self.database.logging = self.database.logging += JSON.stringify(error) + '<br/>'
+
+                        self.database.geolocation = false
+
+                        navigator.geolocation.clearWatch(self.watchID);
+
+                        self.ractive.set(self.database)
+
+                    }, geo_options);
+
+                } else {
+
+                    self.database.logging = self.database.logging += "Geolocation: The user is not in Australia<br/>";
 
                     self.database.geolocation = false
 
-                    navigator.geolocation.clearWatch(self.watchID);
-
                     self.ractive.set(self.database)
 
-                }, geo_options);
+                }
 
             });
+
         } else {
 
             self.database.logging = self.database.logging += "Geolocation is not supported<br/>";

@@ -59,15 +59,26 @@
 
 						{{#if geolocation}}
 
+							{{#if isApp}}
+
+							{{else}}
+
 							<div class="geo-switch" on-tap="['geo']"></div>
+
+							{{/if}}
 
 						{{/if}}
 
 			            <div id="searchbox">
-			                <div class="inputbox-holder">
+
+			                <div class="{{#if isApp}}app-holder isApp{{else}}inputbox-holder{{/if}}">
+
 			                    <form autocomplete="off">
+
 			                        <input class="frontier-sr-only" id="inputbox" placeholder="Enter a postcode" size="90" type="text" value="{{user_input}}">
+
 			                    </form>
+
 			                    <div id="results">
 			                    	
 			                    	{{#if list}}
