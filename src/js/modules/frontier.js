@@ -1,4 +1,5 @@
 import template from '../../templates/template.html'
+import modalTemplate from '../../templates/modal.html'
 import xr from 'xr';
 import palette from '../modules/palette'
 import { Toolbelt } from '../modules/toolbelt'
@@ -7,6 +8,7 @@ import { $, $$, round, numberWithCommas, wait, getDimensions } from '../modules/
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
 import ractiveEventsHover from 'ractive-events-hover'
+import ractiveFade from 'ractive-transitions-fade'
 import noUiSlider from 'nouislider'
 import moment from 'moment'
 import Choices from 'choices.js'
@@ -14,6 +16,7 @@ import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
 import L from 'leaflet' // npm install leaflet@1.0.3. v 1.0.3 Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 //npm install leaflet@1.3.1
+import Modal from '../modules/modal'
 import 'leaflet.markercluster'
 import '../modules/Leaflet.GoogleMutant.js'
 import * as topojson from "topojson"
@@ -35,7 +38,9 @@ export class Frontier {
 
         this.screenWidth = document.documentElement.clientWidth
 
-        this.screenHeight = document.documentElement.clientHeight - 100
+        this.screenHeight = document.documentElement.clientHeight
+
+        this.isMobile = this.mobileCheck()
 
         this.nom = 5 // Number of masacres on radial search
 
@@ -179,13 +184,17 @@ export class Frontier {
 
         }
 
-        this.isMobile = this.mobileCheck()
-
         if (this.screenHeight > (this.screenWidth * 2)) {
 
             this.screenHeight = this.screenWidth
 
+        } else {
+
+            this.screenHeight = this.screenHeight - 100
+
         }
+
+        this.database.logging = this.database.logging += "Mobile: " + (self.isMobile) ? true: false ;
 
         this.database.records = this.googledoc
 
@@ -205,7 +214,6 @@ export class Frontier {
         var isApp = (window.location.origin === "file://" || window.location.origin === "null") ? true : false ;
         var preflight = (check || isiPad ? true : false)
         var status = (isApp) ? true : preflight ;
-        self.database.logging = self.database.logging += 'Mobile: ' + status + '<br/>';
 
         return status;
     }
@@ -296,9 +304,18 @@ export class Frontier {
 
         })
 
+        this.ractive.on( 'about', function ( context ) {
+
+            self.showAbout()
+
+        });
+
+
         this.ractive.observe('proximity', ( proximity ) => {
 
             self.database.proximity = proximity
+
+            self.ractive.set(self.database)
             
 
             if (self.database.geocheck) {
@@ -406,6 +423,8 @@ export class Frontier {
 
         var self = this
 
+        self.database.geocheck = false
+
         self.database.geolocation = ("geolocation" in navigator) ? true : false ;
 
         var geo_options = {
@@ -430,6 +449,8 @@ export class Frontier {
 
                     self.database.userLongitude = position.coords.longitude
 
+
+
                     self.database.logging = self.database.logging += `${position.coords.latitude}, ${position.coords.longitude} <br/>`
 
                     self.ractive.set(self.database)
@@ -453,7 +474,7 @@ export class Frontier {
 
         }
 
-        self.database.geocheck = false
+        
 
         self.ractive.set(self.database)
 
@@ -1056,6 +1077,44 @@ export class Frontier {
 
 
     }
+
+    showAbout() {
+
+        var modal = new Modal({
+            transitions: { fade: ractiveFade },
+            events: { tap: ractiveTap },
+            template: modalTemplate,
+            data: {
+                isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false 
+            }
+        });
+
+        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
+
+        var el = $('.modal-content');
+
+        el.ontouchstart = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
+
+            }
+        };
+
+        el.ontouchend = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
+
+            }
+
+        };
+
+
+    }
+
 
     scrollTo(element, time) {
 

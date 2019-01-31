@@ -26,7 +26,7 @@
 							<button class="interactive-share" data-network="facebook"></button> 
 							<button class="interactive-share" data-network="twitter"></button>
 						</div>
-						<div class="about_database">
+						<div on-tap="['about']" class="about_database">
 							About the data
 						</div>
 					</div>
@@ -122,7 +122,7 @@
 
 				<div id="map" style="height:{{height}}px"></div>
 
-				<div id="legend" class="{{#if isMobile}}legend hideFilters{{else}}legend{{/if}}">
+				<div id="legend" class="{{#if legend}}legend hideFilters{{else}}legend{{/if}}">
 
 					<div class="close-container">
 						
