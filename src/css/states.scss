@@ -1,0 +1,26 @@
+.states {
+
+	background-color: #38454F;
+	color: white;
+	margin: 5px;
+	opacity: 0.7;
+	font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-size: 12px;
+	padding-right: 5px;
+	padding-left: 5px;
+	 
+	ul {
+	  list-style: none;
+	}
+
+	li {
+		display:block;
+		width:30px;
+		float:left;
+		text-align: center;
+		cursor: pointer;
+		padding-bottom: 9px;
+	}
+
+
+}
