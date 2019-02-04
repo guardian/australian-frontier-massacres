@@ -24,6 +24,7 @@ import share from '../modules/share'
 import australia from '../modules/states.json'
 import smoothscroll from 'smoothscroll-polyfill';
 import bbox from 'geojson-bbox';
+import * as ElementPosition from 'element-position';
 
 
 smoothscroll.polyfill();
@@ -494,6 +495,8 @@ export class Frontier {
 
         this.createState()
 
+        this.getCoordinates()
+
     }
 
     compile() {
@@ -650,11 +653,25 @@ export class Frontier {
 
                 }
 
-
-
             }, false);
         }
      
+    }  
+
+    getCoordinates() {
+
+        var infos = ["info-1"]
+
+        for (var i = 0; i < infos.length; i++) {
+
+            var el = document.getElementById(infos[i]);
+
+            var pos = ElementPosition.getCoordinates(el);
+
+            console.log("Element #" + infos[i] + ": " + pos.top, pos.left, pos.right, pos.bottom);
+
+        }
+
     }
 
     geocheck() {
