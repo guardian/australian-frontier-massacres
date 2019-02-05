@@ -127,6 +127,28 @@ export class Frontier {
 
         this.database = {
 
+            info: true,
+
+            tips: [{
+                "posX" : 0,
+                "posY" : 0,
+                "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected. Explore mode lets move around the map exploring the data. To view more info about a massacre tap on a circle and scrool to down to the article view."
+            },{
+                "posX" : 0,
+                "posY" : 0,
+                "tip" : "You can toggle the filter panel on and off. When the filter panel is open you can specify a date range, filter results by the number of fatalities, or display massacres in which certain groups were involved."
+            }],
+
+            tip: "",
+
+            tipDisplay: true,
+
+            currentTip: 0,
+
+            currentPosX: null,
+
+            currentPosY: null,
+
             geolocation: false,
 
             geocheck:  true,
@@ -207,6 +229,8 @@ export class Frontier {
 
         }
 
+        this.database.tip = this.database.tips[0].tip
+
         this.database.logging = this.database.logging += `Mobile: ${(self.isMobile) ? true: false } <br/>` ;
 
         this.database.records = this.googledoc
@@ -280,6 +304,22 @@ export class Frontier {
             self.ractive.set(self.database)
 
         });
+
+
+        this.ractive.on('panel', (context) => {
+
+            self.database.info = false
+            self.ractive.set(self.database)
+
+        })
+
+        this.ractive.on('tips', (context) => {
+
+            self.database.currentTip = (self.database.currentTip == self.database.tips.length - 1) ? 0 : self.database.currentTip + 1 ;
+
+            self.getCoordinates()
+
+        })
 
         this.ractive.on('postcode', (context, lat, lng) => {
 
@@ -660,7 +700,9 @@ export class Frontier {
 
     getCoordinates() {
 
-        var infos = ["info-1"]
+        var self = this
+
+        var infos = ["info-1", "info-2"]
 
         for (var i = 0; i < infos.length; i++) {
 
@@ -668,9 +710,23 @@ export class Frontier {
 
             var pos = ElementPosition.getCoordinates(el);
 
-            console.log("Element #" + infos[i] + ": " + pos.top, pos.left, pos.right, pos.bottom);
+            self.database.tips[i].posX = pos.left - 100 + ( ( pos.right - pos.left) / 2 )
 
+            self.database.tips[i].posY = self.toolbelt.getOffsetTop(el) - 140
         }
+
+
+        self.database.info = true
+
+        self.database.tipDisplay = true
+
+        self.database.currentPosX = self.database.tips[self.database.currentTip].posX
+
+        self.database.currentPosY = self.database.tips[self.database.currentTip].posY
+
+        this.database.tip = this.database.tips[self.database.currentTip].tip
+        
+        self.ractive.set(self.database)
 
     }
 

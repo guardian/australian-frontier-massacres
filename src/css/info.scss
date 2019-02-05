@@ -1,0 +1,71 @@
+@import "mq";
+
+.info-panel {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 99999999;
+	bottom: 0px;
+	top: 0px;
+}
+
+.info-panel-1 {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	position: absolute;
+	animation: pulsate infinite 1s;
+  	border: 2px dotted red;
+  	z-index: 999999999999;
+}
+
+.interior-panel {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+	background-color: black;
+	opacity: 0.6;
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    -webkit-transform: scale(1, 1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scale(1.1, 1.1);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1, 1);
+    opacity: 0.5;
+  }
+}
+
+.tipster {
+	width: 80%;
+	
+	background-color: white;
+	padding: 20px;
+	position: absolute;
+	
+	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+
+    @include mq($until: tablet) {
+        max-width: 260px;
+        left: calc(50% - 150px);
+        margin-top: 240px;
+    }       
+
+	@include mq($from: tablet) {
+	   max-width: 400px;
+	   left: calc(50% - 200px);
+	}
+
+}
+
+.tipster strong {
+	color: red;
+}

@@ -1,0 +1,286 @@
+@import "mq";
+
+
+  .footer {
+    margin: 0 auto;
+    padding-bottom: 40px;
+    max-width: 1100px;
+
+     .gia-byline span {
+            font-weight: bold;
+          }
+
+
+    h2 { 
+      color: #bdbdbd; 
+
+      @include mq($until: tablet) {
+          margin-left: 10px;
+      }
+
+      @include mq($from: tablet) {
+          margin: 10px;
+      }
+
+
+
+    }
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    @each $bp in (tablet, desktop, leftCol, wide) {
+      @include mq($bp) {
+        width: map-get($mq-breakpoints, $bp);
+      }
+    }
+
+    
+
+
+    .footer-grid {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      margin-bottom: 20px;
+
+      li {
+        width: 25%;
+        float: left;
+        display: flex;
+        flex: 1 1 auto;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .footer-item-container {
+          margin: 0 10px;
+          min-height: 80px;
+          box-sizing: border-box;
+          overflow: hidden;
+          position: relative;
+          background-color: #333;
+          color: #fff;
+
+
+          &:hover {
+            background-color: #666;
+          };
+
+          .footer-text-content {
+            margin: 0 10px;
+            padding-bottom: 10px;
+          }
+
+          .contribute.footer-text-content {
+            margin-top: 20px;
+          }
+
+          img {
+            max-width:100%;
+          }
+
+          h2 {
+            font-size:18px;
+            font-weight: 500;
+            margin: 0.25em 0;
+            line-height: 24px;
+            color: inherit;
+          }
+          a {
+            color: inherit;
+          }
+          .anchor {
+            position: absolute;
+            z-index: 200!important;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+          }
+
+          .button {
+            border: none;
+            height: 30px;
+            line-height: 32px;
+            display: inline-block;
+            color: #000;
+            z-index: 100;
+            background-color: #ffe500;
+            border-radius: 62.5rem;
+            padding: 0 0.625em;
+
+            .arrow-icon {
+              height: auto!important;
+              width: auto!important;
+              float: right;
+              fill: #000;
+            }
+          }
+
+          .contribute.button {
+            margin-top: 10px;
+          }
+
+          .subheading {
+/*            color: #d78f66;
+*/            font-size: 1em;
+            line-height: 1.25em;
+            margin: 0.25em 0;
+            color: #dcdcdc;
+            font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;            
+          }
+
+          .members-header {
+            width: 100%;
+            background-color: #ffe500;
+
+            h2 {
+              color: #000;
+              margin: 0;
+              padding: 0;
+              padding: 5px 5px 10px;
+            }
+
+            .guardian-logo {
+              padding: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    @include mq($until: tablet) {
+      .footer-grid li {
+        width: 100%;
+        margin-bottom: 1em;
+
+        .footer-item-container {
+          img { 
+            max-width: 100px; 
+            position: absolute;
+            margin: 0.25em;
+          }
+          .footer-text-content {
+            margin-left: 110px;
+            padding-bottom: 0;
+          }
+
+          .contribute.footer-text-content {
+            margin-left: 5px;
+            padding-bottom:10px;
+          }
+
+          .button {
+            margin-left:5px;
+          }
+
+          .contribute.button {
+            margin-bottom: 5px;
+            margin-left:5px;
+          }
+        }
+      }
+
+      .footer-grid, li {
+        display: block;
+      }
+    } 
+}
+
+.row {
+margin-bottom:20px; 
+}
+
+.row:after {
+content: " "; /* Older browser do not support empty content */
+visibility: hidden;
+display: block;
+height: 0;
+clear: both;
+}
+
+.col10 {
+float:left;
+width:9%;
+margin-right:1%; 
+}
+
+.col20 {
+float:left;
+width:19%;
+margin-right:1%; 
+}
+
+.col30 {
+float:left;
+width:29%;
+margin-right:1%; 
+}
+
+.col33 {
+float:left;
+width:33.33%;
+margin-right:1%; 
+}
+
+.col40 {
+float:left;
+width:39%;
+margin-right:1%; 
+}
+
+.col50 {
+float:left;
+width:49%;
+margin-right:1%; 
+}
+
+.col60 {
+float:left;
+width:49%;
+margin-right:1%; 
+}
+
+.col66 {
+float:left;
+width:66.66%;
+margin-right:1%; 
+}
+
+.col70 {
+float:left;
+width:69%;
+margin-right:1%; 
+}
+
+.col80 {
+float:left;
+width:79%;
+margin-right:1%; 
+}
+
+.col90 {
+float:left;
+width:79%;
+margin-right:1%; 
+}
+
+@media (max-width: 750px) {
+.col50, .col10, .col20, .col30, .col70 {
+width:100%;
+margin:0;
+}
+
+}
+
+.credits-inner {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}

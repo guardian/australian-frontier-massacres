@@ -93,6 +93,23 @@ export class Toolbelt {
         return null;
     }
 
+    getOffsetTop(elem) {
+
+        // Set our distance placeholder
+        var distance = 0;
+
+        // Loop up the DOM
+        if (elem.offsetParent) {
+            do {
+                distance += elem.offsetTop;
+                elem = elem.offsetParent;
+            } while (elem);
+        }
+
+        // Return our distance
+        return distance < 0 ? 0 : distance;
+    }
+
     toTitleCase(string) {
         return string.toLowerCase().replace(/_/g, ' ').replace(/\b([a-z\u00C0-\u00ff])/g, function (_, initial) {
           return initial.toUpperCase();
