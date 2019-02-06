@@ -238,7 +238,7 @@ export class Frontier {
 
         this.database.records = this.googledoc
 
-        this.database.height = this.screenHeight
+        this.database.height = (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? self.screenWidth : self.screenHeight ;
 
         this.postcoder()
 
@@ -308,10 +308,10 @@ export class Frontier {
 
         });
 
-
         this.ractive.on('panel', (context) => {
 
             self.database.info = false
+
             self.ractive.set(self.database)
 
         })
@@ -437,6 +437,28 @@ export class Frontier {
         this.ractive.on( 'info', function ( context, id ) {
 
             self.loadMassacre(id);
+
+        });
+
+        this.ractive.on( 'infohover', function ( context, id ) {
+
+            for (var i = 0; i < self.array.length; i++) {
+
+                let marker = self.array[i]
+
+                if (self.array[i].options.id == id) {
+
+                    if ( context.hover ) {
+
+                        marker.setRadius( self.getRadius() * 2 );
+
+                    } else {
+
+                        marker.setRadius( self.getRadius() );
+                    }
+
+                }
+            }
 
         });
 
@@ -944,6 +966,10 @@ export class Frontier {
 
         }
 
+        self.clusters = []
+
+        /*
+
         self.clusters = new L.MarkerClusterGroup({
                             iconCreateFunction: function(cluster) {
                                 var children = cluster.getAllChildMarkers();
@@ -989,7 +1015,11 @@ export class Frontier {
 
         self.map.addLayer(self.clusters);
 
+        */
+
         self.rads = L.featureGroup(array).addTo(self.map);
+
+        self.rads.bringToBack()
 
     }
 

@@ -239,7 +239,7 @@
 											<th class="table-results">Distance (km)</th>
 										</tr>
 										{{#each topfive}}
-										<tr on-tap="['info', id]" class="massacre_row" data-massacre="{{id}}">
+										<tr on-tap="['info', id]" on-hover="['infohover', id]" class="massacre_row" data-massacre="{{id}}">
 											<td class="table-results" ></td>
 											<td class="table-results">{{Site_Name}}</td>
 											<td class="table-results">{{total_dead}}</td>
