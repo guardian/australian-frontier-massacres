@@ -1,0 +1,44 @@
+<div class='modal-background' on-tap='bg-close' intro='fade' outro='fade'>
+  
+  <div class='modal-outer'>
+    
+    <div id="casestudy" class='modal'>
+
+      {{#if isApp}}<div class="app_space_bar"></div>{{/if}}
+
+      <div class="details-container-inner">
+
+        <div class="details">
+
+          <div on-tap='close' class="close"></div>
+
+          <div class="summary">
+
+            <h2>{{title}}</h2>
+
+            {{tip}}
+
+          </div>
+
+        </div>
+
+        <div class="share-link-container">
+
+          <a on-tap='close' class="action-button">Close</a>
+
+          {{#if showNext}}
+
+            <a on-tap='showNext' class="action-button share-link">Next tip</a>
+
+          {{/if}}  
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+

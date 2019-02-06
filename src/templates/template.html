@@ -6,13 +6,9 @@
 
 			<div on-tap="['panel']" class="info-panel">
 
-				<div class="interior-panel"></div>
-
 				{{#if tipDisplay}}
 				
 				<div class="info-panel-1" style="top:{{currentPosY}}px;left:{{currentPosX}}px;"></div>
-
-				<div class="tipster" style="top:{{currentPosY}}px;"><strong>Tip:</strong> {{tip}} </div>
 
 				{{/if}}
 
@@ -345,10 +341,13 @@
 				</div>
 				<div class="frontier-results-footer">
 					<div class="frontier-container">
-						<div class="frontier-container-inner text-right">
+
+						<div on-tap="['top']" class="about_database">Back to top</div>
+
+						<!--div class="frontier-container-inner text-right">
 							<button class="frontier-button" on-tap="['top']"><svg height="18" viewbox="0 0 24 18" width="24">
 							<path d="M.4 15.3l10.5-8.4L12 6l1.1.9 10.5 8.4-.5.7L12 9.7.9 16l-.5-.7z"></path></svg> Back to top</button>
-						</div>
+						</div-->
 					</div>
 				</div>
 			</section>

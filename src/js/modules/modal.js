@@ -22,6 +22,11 @@ const Modal = Ractive.extend({
       this.teardown();
     });
 
+    this.on( 'update', function ( event ) {
+      console.log("Update")
+    });
+
+
     // when the window resizes, keep the modal horizontally and vertically centred
     window.addEventListener( 'resize', resizeHandler = function () {
       self.center();

@@ -1,5 +1,6 @@
 import template from '../../templates/template.html'
 import modalTemplate from '../../templates/modal.html'
+import tipsTemplate from '../../templates/tips.html'
 import xr from 'xr';
 import palette from '../modules/palette'
 import { Toolbelt } from '../modules/toolbelt'
@@ -132,10 +133,12 @@ export class Frontier {
             tips: [{
                 "posX" : 0,
                 "posY" : 0,
+                "title" : "Explore and proximity mode",
                 "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected. Explore mode lets move around the map exploring the data. To view more info about a massacre tap on a circle and scrool to down to the article view."
             },{
                 "posX" : 0,
                 "posY" : 0,
+                "title" : "Filter panel toggle",
                 "tip" : "You can toggle the filter panel on and off. When the filter panel is open you can specify a date range, filter results by the number of fatalities, or display massacres in which certain groups were involved."
             }],
 
@@ -725,6 +728,8 @@ export class Frontier {
         self.database.currentPosY = self.database.tips[self.database.currentTip].posY
 
         this.database.tip = this.database.tips[self.database.currentTip].tip
+
+        this.showModal()
         
         self.ractive.set(self.database)
 
@@ -1232,6 +1237,78 @@ export class Frontier {
         };
 
     }
+
+    showModal() {
+
+        var self = this
+
+        var modal = new Modal({
+            transitions: { fade: ractiveFade },
+            events: { 
+                tap: ractiveTap
+            },
+            data: {
+                title: self.database.tips[self.database.currentTip].title,
+                tip: self.database.tips[self.database.currentTip].tip,
+                isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false,
+                showNext: true
+            },
+            template: tipsTemplate
+        });
+
+        modal.on('showNext', function(e) {
+
+            e.original.preventDefault()
+
+            self.database.currentTip = (self.database.currentTip == self.database.tips.length - 1) ? 0 : self.database.currentTip + 1 ;
+
+            modal.set('title',self.database.tips[self.database.currentTip].title)
+
+            modal.set('tip',self.database.tips[self.database.currentTip].tip)
+
+            self.database.currentPosX = self.database.tips[self.database.currentTip].posX
+
+            self.database.currentPosY = self.database.tips[self.database.currentTip].posY
+            
+            self.ractive.set(self.database)
+
+        })
+
+        modal.on('close', function(e) {
+
+            self.database.info = false ;
+
+            self.database.currentTip = (self.database.currentTip == self.database.tips.length - 1) ? 0 : self.database.currentTip + 1 ;
+
+            self.ractive.set(self.database) ;
+
+        })
+
+        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
+
+        var el = $('.details-container-inner');
+
+        el.ontouchstart = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
+
+            }
+        };
+
+        el.ontouchend = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
+
+            }
+
+        };
+
+    }
+
 
     scrollTo(element, time) {
 
