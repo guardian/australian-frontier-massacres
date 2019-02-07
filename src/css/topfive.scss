@@ -27,6 +27,11 @@
   margin-left: 5px;
 }
 
+.topfive_container .massacre_row:hover {
+  background-color: #92979b;
+  color: black;
+}
+
 .topfive_container td {
   padding-left: 2px;
 }
@@ -79,4 +84,8 @@
   color: #6d0909;
   font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 12px;
+}
+
+.massacre_highlight {
+  background-color: #92979b;
 }

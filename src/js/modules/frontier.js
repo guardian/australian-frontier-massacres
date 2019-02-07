@@ -1112,14 +1112,45 @@ export class Frontier {
 
             var popup = L.popup().setLatLng(e.latlng).setContent(tooltipContent).openOn(self.map);
 
+            if (self.database.topfive.length > 0) {
+
+                var listIds = self.database.topfive.map(list => list.id);
+
+                if (self.toolbelt.contains(listIds, id)) {
+
+                    var tablerow = document.querySelector("[data-massacre='" + id + "']");
+
+                    tablerow.classList.add("massacre_highlight");
+
+                }
+
+            }
+
         });
+
+        self.massacres.on('mouseout', (e) => {
+
+            var massacre = document.querySelectorAll(".massacre_row")
+
+            for (var i = 0; i < massacre.length; i++) {
+
+                if (massacre[i].classList.contains("massacre_highlight")) {
+
+                    massacre[i].classList.remove("massacre_highlight");
+
+                }
+                
+            }
+
+        })
 
         self.map.on('popupopen', function() {  
 
             var classname = document.getElementsByClassName("readmore");
 
             for (var i = 0; i < classname.length; i++) {
-                classname[i].addEventListener('click', function(){
+
+                classname[i].addEventListener('click', function() {
 
                     self.loadMassacre(+this.getAttribute("data-id"))
 
