@@ -212,7 +212,33 @@
 
 				    <div class="involvement-filter">
 
-				        <select id="casualties" value='{{specials}}' multiple ></select>
+				        <div class="involved_container">
+
+				        	{{#if specials}}
+
+                                {{#each specials}}
+
+									<div on-tap="['remove', this]" class="involved">{{this}}</div>
+
+                                {{/each}}
+
+				        	{{/if}}
+
+				        </div>
+
+				        <div class="outsiders_container">
+				        	
+				        	{{#if outsiders}}
+
+                                {{#each outsiders}}
+
+									<div on-tap="['add', this]" class="outsiders">{{this}}</div>
+
+                                {{/each}}
+
+				        	{{/if}}
+
+				        </div>
 
 				    </div>
 

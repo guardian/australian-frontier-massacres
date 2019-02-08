@@ -12,7 +12,7 @@ import ractiveEventsHover from 'ractive-events-hover'
 import ractiveFade from 'ractive-transitions-fade'
 import noUiSlider from 'nouislider'
 import moment from 'moment'
-import Choices from 'choices.js'
+//import Choices from 'choices.js'
 import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
 import L from 'leaflet' // npm install leaflet@1.0.3. v 1.0.3 Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
@@ -194,6 +194,8 @@ export class Frontier {
 
             identities: [0,1,2,3,4,5],
 
+            outsiders: [],
+
             filterMotivation: "All",
 
             filterDeaths: "All",
@@ -352,6 +354,39 @@ export class Frontier {
 
         });
 
+        this.ractive.on( 'add', function ( context, tag ) {
+
+            var index = self.database.outsiders.indexOf(tag);
+
+            if (index !== -1) self.database.outsiders.splice(index, 1);
+
+            self.database.specials.push(tag)
+
+            self.getData().then( (data) => {
+
+                self.ractive.set(self.database)
+
+            })
+
+        });
+
+        this.ractive.on( 'remove', function ( context, tag ) {
+
+            var index = self.database.specials.indexOf(tag);
+
+            if (index !== -1) self.database.specials.splice(index, 1);
+
+            self.database.outsiders.push(tag)
+
+            self.getData().then( (data) => {
+
+                self.ractive.set(self.database)
+
+            })
+
+        });
+
+
         this.ractive.observe('proximity', ( proximity ) => {
 
             self.database.proximity = proximity
@@ -368,7 +403,7 @@ export class Frontier {
 
                 // Remove any circles or cluser stuff if the user switches to explore mode
 
-                if (self.rads != undefined && self.clusters != undefined) {
+                if (self.rads != undefined) {
 
                     self.removerStuff()
 
@@ -552,8 +587,6 @@ export class Frontier {
 
         this.compile()
 
-        this.casualties()
-
         this.topo()
 
         this.appscroll()
@@ -592,47 +625,6 @@ export class Frontier {
             })
 
         });
-
-    }
-
-    casualties() {
-
-        var self = this
-
-        this.choice = new Choices(document.getElementById('casualties'), {
-
-            removeItemButton: true,
-
-        });
-
-        this.choice.setChoices(self.identities, 'value', 'label', false);
-
-        this.choice.passedElement.element.addEventListener('addItem', function(event) {
-
-            self.database.identities.push(+event.detail.value)
-
-                self.getData().then( (data) => {
-
-                    self.ractive.set(self.database)
-
-                })
-
-        });
-
-        this.choice.passedElement.element.addEventListener('removeItem', function(event) {
-
-            var index = self.database.identities.indexOf(+event.detail.value);
-
-            if (index !== -1) self.database.identities.splice(index, 1);
-
-            self.getData().then( (data) => {
-
-                self.ractive.set(self.database)
-
-            })
-
-        });
-
 
     }
 
@@ -914,13 +906,6 @@ export class Frontier {
             });
         }
 
-        if(self.map.hasLayer(self.clusters)){
-
-            self.map.removeLayer(self.clusters);
-
-        }
-
-
     }
 
     renderCircles(lat, lng) {
@@ -933,12 +918,6 @@ export class Frontier {
                 function(l){ 
                     self.rads.removeLayer(l);
             });
-        }
-
-        if(self.map.hasLayer(self.clusters)){
-
-            self.map.removeLayer(self.clusters);
-
         }
 
         var array = [];
@@ -965,57 +944,6 @@ export class Frontier {
             array.push(radius);
 
         }
-
-        self.clusters = []
-
-        /*
-
-        self.clusters = new L.MarkerClusterGroup({
-                            iconCreateFunction: function(cluster) {
-                                var children = cluster.getAllChildMarkers();
-                                var sum = 0;
-                                for (var i = 0; i < children.length; i++) {
-                                    sum += children[i].options.icon.options.html;
-                                }
-                                return new L.DivIcon({ html: '<b>&#43;</b>' });
-                            }
-                        });
-
-        for (var i = 0; i < self.database.topfive.length; i++) {
-
-            var icon = L.marker([self.database.topfive[i].Latitude, self.database.topfive[i].Longitude], {
-              icon: L.divIcon({
-                  className: 'number_of_dead_' + self.colourizer(self.database.topfive[i].total_dead),
-                  html: self.database.topfive[i].total_dead,
-                  id: self.database.topfive[i].id
-              })
-            }).on('mouseover', function (e) {
-
-                var massacre = document.querySelector("[data-massacre='" + e.target.options.icon.options.id + "']");
-                massacre.style.backgroundColor = "#4d605c";
-                
-            }).on('mouseout', function (e) {
-
-                var massacre = document.querySelectorAll(".massacre_row")
-
-                for (var i = 0; i < massacre.length; i++) {
-                    massacre[i].style.backgroundColor = "transparent";
-                }
-
-            }).on('click', function (e) {
-                self.map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
-                self.loadMassacre(e.target.options.icon.options.id)
-            });
-
-            //array.push(icon);
-
-            self.clusters.addLayer(icon);
-
-        }
-
-        self.map.addLayer(self.clusters);
-
-        */
 
         self.rads = L.featureGroup(array).addTo(self.map);
 
@@ -1237,9 +1165,22 @@ export class Frontier {
 
             })
 
+            var groups = ["Aboriginal Civilians", "Aboriginal Warriors", "Military / Police / Government", "Native Police", "Settlers / Stockmen", "Colonial civilians"]
+
+            var identities = []
+
+            for (var i = 0; i < self.database.specials.length; i++) {
+
+                var index = groups.indexOf(self.database.specials[i])
+
+                identities.push(index)
+
+            }
+
             var data_three = data_two.filter(function(item) {
 
-                if ( self.toolbelt.contains(item.identities, self.database.identities) ) {
+
+                if ( self.toolbelt.contains(item.identities, identities) ) {
 
                     return item
 

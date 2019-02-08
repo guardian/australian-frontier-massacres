@@ -1,0 +1,55 @@
+@import "palette";
+@import "mq";
+
+.involvement-filter {
+	width: 100%;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 99;
+	margin-top: 20px;
+	display: inline-block;
+
+	.involved_container {
+		width: 100%;
+		display: inline-block;
+	}
+
+	.outsiders_container {
+		width: 100%;
+		display: inline-block;
+	}
+
+	.involved {
+		display: inline-block;
+		padding: 10px;
+		background-color: red;
+		color: white;
+		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
+		font-size: 12px;
+		height: 22px;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		line-height: 22px;
+		border-radius: 22px;
+		cursor: pointer;
+	}
+
+
+	.outsiders {
+		display: inline-block;
+		padding: 10px;
+		background-color: #38454F;
+		color: white;
+		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
+		font-size: 12px;
+		height: 22px;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		line-height: 22px;
+		border-radius: 22px;
+		cursor: pointer;
+	}
+
+
+
+}
