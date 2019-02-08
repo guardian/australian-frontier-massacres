@@ -12,7 +12,6 @@ import ractiveEventsHover from 'ractive-events-hover'
 import ractiveFade from 'ractive-transitions-fade'
 import noUiSlider from 'nouislider'
 import moment from 'moment'
-//import Choices from 'choices.js'
 import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
 import L from 'leaflet' // npm install leaflet@1.0.3. v 1.0.3 Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
@@ -1310,7 +1309,6 @@ export class Frontier {
         };
 
     }
-
 
     scrollTo(element, time) {
 
