@@ -26,12 +26,23 @@
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		font-size: 12px;
-		height: 22px;
 		margin-left: 10px;
 		margin-bottom: 10px;
-		line-height: 22px;
-		border-radius: 22px;
 		cursor: pointer;
+
+        @include mq($until: tablet) {
+			line-height: 12px;
+			height: 12px;
+			border-radius: 12px;
+        }       
+
+        @include mq($from: tablet) {
+			line-height: 22px;
+			height: 22px;
+			border-radius: 22px;
+       }
+
+
 	}
 
 
@@ -42,12 +53,23 @@
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		font-size: 12px;
-		height: 22px;
 		margin-left: 10px;
 		margin-bottom: 10px;
-		line-height: 22px;
-		border-radius: 22px;
 		cursor: pointer;
+
+        @include mq($until: tablet) {
+			line-height: 12px;
+			height: 12px;
+			border-radius: 12px;
+        }       
+
+        @include mq($from: tablet) {
+			line-height: 22px;
+			height: 22px;
+			border-radius: 22px;
+       }
+
+		
 	}
 
 
