@@ -29,23 +29,23 @@
 	*/
 
 	@include mq($until: mobile) {
-	    background-image: url("<%= path %>/assets/parallax/background_320.jpg");
+	    background-image: url("<%= path %>/assets/background_320.jpg");
 	}       
 
 	@include mq($from: mobile, $until: mobileLandscape) {
-	   background-image: url("<%= path %>/assets/parallax/background_480.jpg");
+	   background-image: url("<%= path %>/assets/background_480.jpg");
 	}
 
 	@include mq($from: mobileLandscape, $until: tablet) {
-	   background-image: url("<%= path %>/assets/parallax/background_740.jpg");
+	   background-image: url("<%= path %>/assets/background_740.jpg");
 	}
 
 	@include mq($from: tablet, $until: desktop) {
-	   background-image: url("<%= path %>/assets/parallax/background_980.jpg");
+	   background-image: url("<%= path %>/assets/background_980.jpg");
 	}
 
 	@include mq($from: desktop) {
-	   background-image: url("<%= path %>/assets/parallax/background.jpg");
+	   background-image: url("<%= path %>/assets/background.jpg");
 	}
 
 }
@@ -58,7 +58,7 @@
 	bottom: 0px;
 	background-size: 100%;
 	background-position: center center;
-	background-image: url("<%= path %>/assets/parallax/background-04.svg");
+	background-image: url("<%= path %>/assets/the-killing-times.svg");
 }
 
 .grass {
