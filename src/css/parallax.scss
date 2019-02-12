@@ -3,17 +3,16 @@
 .parallax-container {
 	width: 100%;
 	overflow: hidden;
-	position: relative;
 }
 
 
 #parallax {
 	width: 100%;
 	height: 0px;
-	padding-bottom: 40%;
+	padding-bottom: 45%;
 	overflow: hidden;
 	background-size: cover;
-	background-color: #290003;
+	position: relative;
 	/* background-repeat: repeat-x;
 	animation: slideleft 200s infinite linear; 
 
@@ -30,31 +29,36 @@
 	*/
 
 	@include mq($until: mobile) {
-	    background-image: url("<%= path %>/assets/background_320.jpg");
+	    background-image: url("<%= path %>/assets/parallax/background_320.jpg");
 	}       
 
 	@include mq($from: mobile, $until: mobileLandscape) {
-	   background-image: url("<%= path %>/assets/background_480.jpg");
+	   background-image: url("<%= path %>/assets/parallax/background_480.jpg");
 	}
 
 	@include mq($from: mobileLandscape, $until: tablet) {
-	   background-image: url("<%= path %>/assets/background_740.jpg");
+	   background-image: url("<%= path %>/assets/parallax/background_740.jpg");
 	}
 
 	@include mq($from: tablet, $until: desktop) {
-	   background-image: url("<%= path %>/assets/background_980.jpg");
+	   background-image: url("<%= path %>/assets/parallax/background_980.jpg");
 	}
 
 	@include mq($from: desktop) {
-	   background-image: url("<%= path %>/assets/background.jpg");
+	   background-image: url("<%= path %>/assets/parallax/background.jpg");
 	}
 
+}
 
-
-
-
-
-
+.parallax__title {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	bottom: 0px;
+	background-size: 100%;
+	background-position: center center;
+	background-image: url("<%= path %>/assets/parallax/background-04.svg");
 }
 
 .grass {
@@ -67,38 +71,3 @@
 	left: 0px;
 }
 
-#parallax img {
-	width: 105%;
-	height: auto;
-}
-
-@keyframes slideleft {
-  from { background-position: 6000px; }
-  to { background-position: 0px }
-}
-
-.titlebox {
-	width: 100%;
-	position: absolute;
-	left: 20px;
-	box-sizing: border-box;
-	color: white;
-	
-
-	@include mq($until: tablet) {
-		top: 30px;
-		font-size: 30px;
-		line-height: 44px;
-		padding: 20px;
-	}
-
-	@include mq($from: tablet) {
-		top: 40px;
-		padding: 30px;
-		font-size: 60px;
-		line-height: 64px;
-
-	}
-
-
-}

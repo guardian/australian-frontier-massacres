@@ -25,6 +25,7 @@ import australia from '../modules/states.json'
 import smoothscroll from 'smoothscroll-polyfill';
 import bbox from 'geojson-bbox';
 import * as ElementPosition from 'element-position';
+//import Parallax from 'parallax-js'
 
 
 smoothscroll.polyfill();
@@ -583,6 +584,10 @@ export class Frontier {
             }
 
         });
+
+        //var scene = document.getElementById('parallax');
+
+        //var parallaxInstance = new Parallax(scene);
 
         this.compile()
 

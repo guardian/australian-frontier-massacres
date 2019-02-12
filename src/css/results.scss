@@ -14,6 +14,12 @@
 		color: $primary-colour;
 	}
 
+	.frontier-container small {
+		color: #a31a1c;
+		font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		font-weight: 600;
+	}
+
 	.frontier-container {
 		padding: 0 1.25rem;
 	}
@@ -35,6 +41,9 @@
 	.frontier-container-inner {
 		margin: 1.5rem 0;
 	}
+
+
+
 	.frontier-container-inner:after, .frontier-container-inner:before {
 		content: "";
 		display: table;
