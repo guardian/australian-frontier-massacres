@@ -128,13 +128,13 @@ export class Frontier {
 
         this.database = {
 
-            info: true,
+            info: false,
 
             tips: [{
                 "posX" : 0,
                 "posY" : 0,
                 "title" : "Explore and proximity mode",
-                "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected. Explore mode lets move around the map exploring the data. To view more info about a massacre tap on a circle and scrool to down to the article view."
+                "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected (either by using the postcode search feature or by tapping the geolocation button). In explore mode you can pan, zoom in or out, or reorientate the map to display incidents by state boundaries. In either mode click on a map marker to view more information about the massacres."
             },{
                 "posX" : 0,
                 "posY" : 0,
@@ -144,7 +144,7 @@ export class Frontier {
 
             tip: "",
 
-            tipDisplay: true,
+            tipDisplay: false,
 
             currentTip: 0,
 
@@ -262,7 +262,9 @@ export class Frontier {
 
             });
 
-            self.ractivate()
+            console.log(self.database)
+
+            //self.ractivate()
             
         });
 
@@ -319,6 +321,8 @@ export class Frontier {
         })
 
         this.ractive.on('tips', (context) => {
+
+            console.log("Tips")
 
             self.database.currentTip = (self.database.currentTip == self.database.tips.length - 1) ? 0 : self.database.currentTip + 1 ;
 
@@ -597,8 +601,6 @@ export class Frontier {
 
         this.createState()
 
-        this.getCoordinates()
-
     }
 
     compile() {
@@ -736,10 +738,9 @@ export class Frontier {
             self.database.tips[i].posY = self.toolbelt.getOffsetTop(el) - 140
         }
 
+        self.database.tipDisplay = true
 
         self.database.info = true
-
-        self.database.tipDisplay = true
 
         self.database.currentPosX = self.database.tips[self.database.currentTip].posX
 

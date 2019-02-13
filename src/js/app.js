@@ -7,6 +7,18 @@ xr.get('https://interactive.guim.co.uk/docsdata/' + key + '.json').then((resp) =
 
 	let googledoc = resp.data.sheets.data
 
-	new Frontier(googledoc)
+	var the_killing_time = new Frontier(googledoc)
+
+	var target = document.getElementsByClassName("button_container")[0]
+
+	target.style.display = "inline-block"
+
+	target.addEventListener("click", () => {
+
+		the_killing_time.ractivate()
+
+	})
+
+
 	
 });

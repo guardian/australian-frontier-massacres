@@ -1,5 +1,45 @@
 @import "mq";
 
+.button_container {
+	
+	margin-bottom: 20px;
+	margin-top: 10px;
+	display: none;
+
+	@include mq($until: tablet) {
+		width: 100%;
+	}
+
+	@include mq($from: tablet) {
+		width: 100%;
+		
+	}
+
+}
+
+.button_database {
+
+	@include mq($until: tablet) {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	@include mq($from: tablet) {
+		width: 200px;
+	}
+
+	height: 40px;
+	border-radius: 20px;
+	background-color: #a31a1c;
+	color: white;
+	text-align: center;
+	margin: auto;
+	line-height: 40px;
+	font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
+	cursor: pointer;
+}
+
+
 
 .intro-container {
 
@@ -28,6 +68,10 @@
 		font-family: 'Guardian Egyptian Web', "Egyptian Display", Georgia, serif;
 		box-sizing: border-box;
 		padding: 20px;
+	}
+
+	.warning {
+		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 	}
 
 	.interactive-share {
