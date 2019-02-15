@@ -210,6 +210,8 @@ export class Frontier {
 
             logging: "Console log output for testing:<br/>",
 
+            smallScreen: null,
+
             url: function(urlWeb) {
 
                 return urlWeb;
@@ -242,9 +244,17 @@ export class Frontier {
 
         this.database.height = (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? self.screenWidth : self.screenHeight ;
 
+        this.database.smallScreen = this.screenTest()
+
         this.postcoder()
 
 	}
+
+    screenTest() {
+
+        return (window.innerWidth < 740) ? true : false ;
+
+    }
 
     postcoder() {
 
@@ -261,13 +271,70 @@ export class Frontier {
                 value["meta"] = value.postcode + ' | ' + value.place_name;
 
             });
-
-            console.log(self.database)
-
-            //self.ractivate()
             
         });
 
+    }
+
+    resize() {
+
+        var self = this
+
+        // Detect when a user has stopped resizing the browser window and trigger the appropriate action
+
+        window.addEventListener("resize", function() {
+
+            clearTimeout(document.body.data)
+
+            document.body.data = setTimeout( function() { 
+
+                // Console.log("Resize stuff needs to follow")
+
+            }, 200);
+
+        });
+
+    }
+
+    removeLoop() {
+
+        var self = this
+
+        // Remove render iframe
+        if (self.requestAnimationFrame) {
+           window.cancelAnimationFrame(self.requestAnimationFrame);
+           self.requestAnimationFrame = undefined;
+        }
+
+        console.log("The loop has been closed")
+
+    }
+
+    renderLoop() {
+
+        var self = this
+
+        var landscape = document.getElementsByClassName("parallax-container")[0]
+
+        var painting = document.getElementsByClassName("painting")[0]
+
+        var x = getDimensions(landscape)[1]
+
+        var y = window.pageYOffset
+
+        this.requestAnimationFrame = requestAnimationFrame( function() {
+
+            if (y > 0 && y < x) {
+
+                painting.style.opacity = (x - y) / x
+
+            }
+
+            console.log((x - y) / x)
+
+            self.renderLoop()
+
+        })
     }
 
     ractivate() {
@@ -512,6 +579,8 @@ export class Frontier {
             sharegeneral(channel);
 
         });
+
+        this.resize()
         
         this.googleizer()
 
