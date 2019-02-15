@@ -7,7 +7,17 @@
 	position: relative;
 	z-index: 99;
 	margin-top: 20px;
-	display: inline-block;
+	
+
+	@include mq($until: tablet) {
+		display: none;
+	}       
+
+	@include mq($from: tablet) {
+		display: inline-block;
+	}
+
+
 
 	.involved_container {
 		width: 100%;
@@ -26,7 +36,7 @@
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		font-size: 12px;
-		margin-left: 10px;
+		margin-right: 10px;
 		margin-bottom: 10px;
 		cursor: pointer;
 
@@ -42,9 +52,19 @@
 			border-radius: 22px;
        }
 
-
 	}
 
+	.involved:after {
+		display: block;
+		content: "";
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		margin-left: 10px;
+		background: transparent url('<%= path %>/assets/close.svg') no-repeat;
+		background-color: white;
+		float: right;
+	}
 
 	.outsiders {
 		display: inline-block;
@@ -53,7 +73,7 @@
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		font-size: 12px;
-		margin-left: 10px;
+		margin-right: 10px;
 		margin-bottom: 10px;
 		cursor: pointer;
 
@@ -69,9 +89,20 @@
 			border-radius: 22px;
        }
 
-		
+	}
+
+	.outsiders:after {
+		display: block;
+		content: "";
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		margin-left: 10px;
+		background: transparent url('<%= path %>/assets/plus.svg') no-repeat;
+		float: right;
 	}
 
 
-
 }
+
+

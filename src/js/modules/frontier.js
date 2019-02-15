@@ -330,8 +330,6 @@ export class Frontier {
 
             }
 
-            console.log((x - y) / x)
-
             self.renderLoop()
 
         })

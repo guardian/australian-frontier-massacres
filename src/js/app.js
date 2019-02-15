@@ -32,8 +32,6 @@ xr.get('https://interactive.guim.co.uk/docsdata/' + key + '.json').then((resp) =
 	        op -= op * 0.1;
 	    }, 100);
 
-
-
 	})
 
 

@@ -1,4 +1,5 @@
 @import "palette";
+@import "mq";
 
 .slider_container {
   width: 100%;
@@ -11,8 +12,22 @@
 
 .slider-text {
   width: 100%;
-  display: block;
   clear: both;
+display: block;  
+
+}
+
+.slider-text:nth-child(6) {
+
+  @include mq($until: tablet) {
+    display: none;
+  }  
+
+  @include mq($from: tablet) {
+    display: block;
+  }  
+
+
 }
 
 .annual {
