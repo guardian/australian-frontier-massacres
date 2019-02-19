@@ -96,13 +96,19 @@ export class Frontier {
             self.googledoc[i].id = i
             self.googledoc[i].Latitude = +self.googledoc[i].Latitude
             self.googledoc[i].Longitude = +self.googledoc[i].Longitude
-            self.googledoc[i].idcfv = +self.googledoc[i].idcfv
+            self.googledoc[i].idcfv = self.googledoc[i].idcfv
             self.googledoc[i].total_dead = +self.googledoc[i].Total_Dead_Mean //+self.googledoc[i].Coloniser_Dead + +self.googledoc[i].Aborig_Dead
+            self.googledoc[i].Aborig_Dead_Min = +self.googledoc[i].Aborig_Dead_Min
+            self.googledoc[i].Aborig_Dead_Max = +self.googledoc[i].Aborig_Dead_Max
+            self.googledoc[i].Aborig_Dead_Mean = +self.googledoc[i].Aborig_Dead_Mean
+            self.googledoc[i].Coloniser_Dead_Min = +self.googledoc[i].Coloniser_Dead_Min
+            self.googledoc[i].Coloniser_Dead_Max = +self.googledoc[i].Coloniser_Dead_Max
+            self.googledoc[i].Coloniser_Dead_Mean = +self.googledoc[i].Coloniser_Dead_Mean
             self.googledoc[i].year = moment(self.googledoc[i].Date_Mid, 'YYYY-MM-DD').format('YYYY');
             self.googledoc[i].identities = []
             self.googledoc[i].article = (self.googledoc[i].Key!="") ? true : false ;
-            self.googledoc[i].AborigEst = self.estimizer('Aboriginal', self.googledoc[i].Aborig_Dead_Min, self.googledoc[i].Aborig_Dead_Max, self.googledoc[i].Total_Dead_Mean)
-            self.googledoc[i].ColoniserEst = self.estimizer('Coloniser', self.googledoc[i].Coloniser_Dead_Min, self.googledoc[i].Coloniser_Dead_Max, self.googledoc[i].Total_Dead_Mean)
+            self.googledoc[i].AborigEst = self.estimizer('Aboriginal', self.googledoc[i].Aborig_Dead_Min, self.googledoc[i].Aborig_Dead_Max, self.googledoc[i].Aborig_Dead_Mean)
+            self.googledoc[i].ColoniserEst = self.estimizer('Coloniser', self.googledoc[i].Coloniser_Dead_Min, self.googledoc[i].Coloniser_Dead_Max, self.googledoc[i].Coloniser_Dead_Mean)
 
             for (var ii = 0; ii < self.identities.length; ii++) {
 
@@ -113,6 +119,8 @@ export class Frontier {
             }
 
         }
+
+        console.log(self.googledoc)
 
         this.latitude = -25.191917
 
@@ -254,17 +262,7 @@ export class Frontier {
 
     estimizer(label, min, max, mean) {
 
-        let estimate = ""
-
-        if (min!=max&&min!=0&&max!=0) {
-
-            estimate = `<strong>${label} dead mean</strong>: ${mean} (min estimate: ${min}, max estimate: ${max})`
-
-        } else {
-
-            estimate = `<strong>${label} dead</strong>: ${mean}`
-
-        }
+        var estimate = (min!=max&&min!=0&&max!=0) ? `<strong>${label} dead mean</strong>: ${mean} (min estimate: ${min}, max estimate: ${max})` : `<strong>${label} dead</strong>: ${mean}` ; 
 
         return estimate
 
