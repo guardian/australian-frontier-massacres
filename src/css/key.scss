@@ -4,6 +4,17 @@
 	float: right;
 	padding-right: 10px;
 	height: 50px;
+	color:white;
+	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+
+        @include mq($until: tablet) {
+            font-size: 10px;
+        }       
+
+        @include mq($from: tablet) {
+           font-size: 12px;
+       }
+	
 }
 
 .key-container .key {
