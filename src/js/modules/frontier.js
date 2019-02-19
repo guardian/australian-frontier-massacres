@@ -101,6 +101,8 @@ export class Frontier {
             self.googledoc[i].year = moment(self.googledoc[i].Date_Mid, 'YYYY-MM-DD').format('YYYY');
             self.googledoc[i].identities = []
             self.googledoc[i].article = (self.googledoc[i].Key!="") ? true : false ;
+            self.googledoc[i].AborigEst = self.estimizer('Aboriginal', self.googledoc[i].Aborig_Dead_Min, self.googledoc[i].Aborig_Dead_Max, self.googledoc[i].Total_Dead_Mean)
+            self.googledoc[i].ColoniserEst = self.estimizer('Coloniser', self.googledoc[i].Coloniser_Dead_Min, self.googledoc[i].Coloniser_Dead_Max, self.googledoc[i].Total_Dead_Mean)
 
             for (var ii = 0; ii < self.identities.length; ii++) {
 
@@ -249,6 +251,24 @@ export class Frontier {
         this.postcoder()
 
 	}
+
+    estimizer(label, min, max, mean) {
+
+        let estimate = ""
+
+        if (min!=max&&min!=0&&max!=0) {
+
+            estimate = `<strong>${label} dead mean</strong>: ${mean} (min estimate: ${min}, max estimate: ${max})`
+
+        } else {
+
+            estimate = `<strong>${label} dead</strong>: ${mean}`
+
+        }
+
+        return estimate
+
+    }
 
     screenTest() {
 
@@ -1061,7 +1081,7 @@ export class Frontier {
 
             let marker = new L.circle([item.Latitude,item.Longitude], {
                 color: 'black',
-                opacity: borderizer(item.article),
+                opacity: 0,
                 fillColor: colourizer(item.total_dead),
                 fillOpacity: 0.5,
                 id: item.id, //idcfv
@@ -1085,8 +1105,10 @@ export class Frontier {
         var tooltipTemplate = `<strong>{site}</strong><br />
             <em>{date}</em><br /><br /> 
             <strong>Motive:</strong> {motive}<br />
-            <strong>Aboriginal dead:</strong> {aboriginal}<br />
-            <strong>Coloniser dead:</strong> {coloniser}<br /><br />
+            {aboriginal}<br />
+            {coloniser}<br /><br />
+            <div class="totaline"></div>
+            <strong>Total dead:</strong> {total}<br /><br />
             <div class="readmore" data-id="{id}">Click to see full description</div>`;
 
         self.massacres.on('mouseover', (e) => {
@@ -1103,8 +1125,9 @@ export class Frontier {
               site : massacre.Site_Name, 
               date : (massacre.Known_Date!='') ? massacre.Known_Date : massacre.year,
               motive: massacre.Motive,
-              aboriginal : massacre.Aborig_Dead_Mean,
-              coloniser : massacre.Coloniser_Dead_Mean,
+              aboriginal : massacre.AborigEst,
+              coloniser : massacre.ColoniserEst,
+              total: massacre.Total_Dead_Mean,
               id : id
             };
 
