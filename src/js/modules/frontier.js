@@ -120,8 +120,6 @@ export class Frontier {
 
         }
 
-        console.log(self.googledoc)
-
         this.latitude = -25.191917
 
         this.longitude = 133.772541
@@ -298,15 +296,33 @@ export class Frontier {
 
         var self = this
 
-        // Detect when a user has stopped resizing the browser window and trigger the appropriate action
-
         window.addEventListener("resize", function() {
 
             clearTimeout(document.body.data)
 
             document.body.data = setTimeout( function() { 
 
-                // Console.log("Resize stuff needs to follow")
+                console.log("Resized")
+
+                self.screenWidth = document.documentElement.clientWidth
+
+                self.screenHeight = document.documentElement.clientHeight
+
+                if (self.screenHeight > (self.screenWidth * 2)) {
+
+                    self.screenHeight = self.screenWidth
+
+                } else {
+
+                    self.screenHeight = self.screenHeight - 100
+
+                }
+
+                self.database.height = (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? self.screenWidth : self.screenHeight ;
+
+                self.database.smallScreen = self.screenTest()
+
+                self.ractive.set(self.database)
 
             }, 200);
 
@@ -586,11 +602,13 @@ export class Frontier {
 
         this.ractive.on( 'social', function ( context, channel ) {
 
-            var title = "Frontier wars." ;
+            var title = "The Killing Times." ;
 
-            var message = 'Frontier wars.'
+            var message = 'The Killing Times.'
 
-            let sharegeneral = share(title, "https://www.theguardian.com/environment/ng-interactive/2018/aug/06/people-powered", 'https://i.guim.co.uk/img/media/6a1139738b7d9ccd958b4652a0261b02e87f1f95/0_0_1000_600/master/1000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&crop=faces%2Centropy&bm=normal&ba=bottom%2Cleft&blend64=aHR0cHM6Ly9hc3NldHMuZ3VpbS5jby51ay9pbWFnZXMvb3ZlcmxheXMvZDM1ODZhNWVmNTc4MTc1NmQyMWEzYjYzNWU1MTcxNDEvdGctZGVmYXVsdC5wbmc&s=831c1bb89135b735ad9b9470726ba453', '', '#PeoplePowe#4d605c', message);
+            // title, shareURL, fbImg, twImg, hashTag, FBmessage=''
+
+            let sharegeneral = share(title, "https://www.theguardian.com/environment/ng-interactive/2019/feb/25/the-killing-times", '', '', '#KillingTimes', message);
 
             sharegeneral(channel);
 
