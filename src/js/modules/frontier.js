@@ -14,10 +14,8 @@ import noUiSlider from 'nouislider'
 import moment from 'moment'
 import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
-import L from 'leaflet' // npm install leaflet@1.0.3. v 1.0.3 Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
-//npm install leaflet@1.3.1
+import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import Modal from '../modules/modal'
-import 'leaflet.markercluster'
 import '../modules/Leaflet.GoogleMutant.js'
 import * as topojson from "topojson"
 import share from '../modules/share'
@@ -25,8 +23,6 @@ import australia from '../modules/states.json'
 import smoothscroll from 'smoothscroll-polyfill';
 import bbox from 'geojson-bbox';
 import * as ElementPosition from 'element-position';
-//import Parallax from 'parallax-js'
-
 
 smoothscroll.polyfill();
 Ractive.DEBUG = false;
@@ -522,33 +518,17 @@ export class Frontier {
 
         this.ractive.on( 'results', function ( context ) {
 
-            var target = document.getElementById("legend")
+            self.database.legend = self.database.legend ? false : true ;
 
-            if (target.classList.contains('hideFilters')) {
-
-                target.classList.remove('hideFilters')
-
-            } else {
-
-                target.classList.add('hideFilters')
-
-            }
+            self.ractive.set(self.database)
 
         });
 
         this.ractive.on( 'close', function ( context ) {
 
-            var target = document.getElementById("legend")
+            self.database.legend = self.database.legend ? false : true ;
 
-            if (target.classList.contains('hideFilters')) {
-
-                target.classList.remove('hideFilters')
-
-            } else {
-
-                target.classList.add('hideFilters')
-
-            }
+            self.ractive.set(self.database)
 
         });
 
@@ -811,14 +791,6 @@ export class Frontier {
 
                 self.map.fitBounds(bounds);
 
-                var target = document.getElementById("legend")
-
-                if (!target.classList.contains('hideFilters')) {
-
-                    target.classList.add('hideFilters')
-
-                }
-
             }, false);
         }
      
@@ -1079,6 +1051,13 @@ export class Frontier {
 
         }
 
+        function shaperizer(cat) {
+
+            return (cat=='Aboriginal') ? 'circle' : 'square' ;
+
+        }
+
+
         var self = this
 
         if (self.map.hasLayer(self.massacres)) {
@@ -1096,13 +1075,14 @@ export class Frontier {
             var item = self.database.records[i];
 
             let marker = new L.circle([item.Latitude,item.Longitude], {
-                color: 'black',
-                opacity: 0,
-                fillColor: colourizer(item.total_dead),
-                fillOpacity: 0.5,
-                id: item.id, //idcfv
-                radius: self.getRadius()
-            });
+                    color: colourizer(item.total_dead),
+                    opacity: 0,
+                    fillColor: colourizer(item.total_dead),
+                    fillOpacity: 0.5,
+                    id: item.id,
+                    radius: self.getRadius()
+                });
+
 
             self.array.push(marker);
 
