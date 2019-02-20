@@ -1,0 +1,110 @@
+.circle_loader {
+    position:relative;
+    margin:auto;
+    width:80px;
+    height:80px;
+    background:#a31a1c;
+    border-radius:100%;
+    overflow:hidden;
+    animation: rotates 2s infinite linear;
+    -webkit-animation: rotates 2s infinite linear;
+}
+.up{
+    width: 30px;
+    height: 40px;
+    left:25px;
+    overflow:hidden;
+    background:#d78f66; 
+    position:absolute;
+}
+.up:before,.up:after{
+    content:"";
+    width:30px;height:30px;
+    background:#a31a1c;
+    position:absolute;
+    z-index:1;
+}
+.up:before{
+    top:30px;
+    left:-17px;
+    transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+}
+.up:after{
+    top:30px; left:17px;
+    transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+}
+.innera{
+    position:relative;
+    top:15px;
+    width:30px;height:30px;
+    background:#f1c40f;
+    animation: mymove 2s infinite linear;
+    -webkit-animation: mymove 2s infinite linear;
+}
+.down{
+    width: 30px;
+    height: 40px;
+    left:25px;
+    top:40px;
+    overflow:hidden;
+    background:#d78f66;
+    position:absolute;
+    z-index:1;
+}
+.down:before,.down:after{
+    content:"";
+    width:30px;
+    height:40px;
+    background:#a31a1c;
+    position:absolute;
+    z-index:1;
+}
+.down:before{
+    top:-25px;
+    left:-17px;
+    transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+}
+.down:after{
+    top:-25px;
+    left:24px;
+    transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+}
+.innerb{
+    position:relative;
+    top:40px;
+    width:30px;height:30px; background:#f1c40f;
+    animation: mymoveb 2s infinite linear;
+    -webkit-animation: mymoveb 2s infinite linear;
+}
+@keyframes mymove{
+    0%{top:15px;}
+    100%{top:45px;}
+}
+@keyframes mymoveb{
+    0%{top:40px;}
+    90%{top:20px;}
+    100%{top:-5px;}
+}
+@keyframes rotates{
+    0%{transform:rotate(0deg);}
+    80%{transform:rotate(0deg);}
+    100%{transform:rotate(180deg);}
+}
+@-webkit-keyframes mymove{
+    0%{top:15px;}
+    100%{top:45px;}
+}
+@-webkit-keyframes mymoveb{
+    0%{top:40px;}
+    90%{top:20px;}
+    100%{top:-5px;}
+}
+@-webkit-keyframes rotates{
+    0%{-webkit-transform:rotate(0deg);}
+    80%{-webkit-transform:rotate(0deg);}
+    100%{-webkit-transform:rotate(180deg);}
+}
