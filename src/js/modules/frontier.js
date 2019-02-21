@@ -17,7 +17,6 @@ import mapstyles from '../modules/mapstyles.json'
 import L from '../modules/leaflet/dist/leaflet-src' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import Modal from '../modules/modal'
 import '../modules/Leaflet.GoogleMutant.js'
-//import 'leaflet-canvas-marker'
 import * as topojson from "topojson"
 import share from '../modules/share'
 import australia from '../modules/states.json'
@@ -216,6 +215,8 @@ export class Frontier {
             logging: "Console log output for testing:<br/>",
 
             smallScreen: null,
+
+            fatalities: 'All',
 
             url: function(urlWeb) {
 
@@ -447,6 +448,22 @@ export class Frontier {
             })
 
         })
+
+
+        this.ractive.on('fatalities', (context, fatalities) => {
+
+            self.database.fatalities = fatalities;
+
+            console.log(fatalities)
+
+            self.getData().then( (data) => {
+
+                self.ractive.set(self.database)
+
+            })
+
+        })
+
 
         this.ractive.on( 'about', function ( context ) {
 
@@ -1281,7 +1298,13 @@ export class Frontier {
 
             })
 
-            self.database.records = data_three
+            var data_four = (self.database.fatalities=='All') ? data_three : data_three.filter(function(item) {
+
+                return item.Primary_Victim_Group == self.database.fatalities
+
+            })
+
+            self.database.records = data_four
 
             self.topo()
 

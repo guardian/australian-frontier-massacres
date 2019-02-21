@@ -3,7 +3,7 @@
 
 .slider_container {
   width: 100%;
-  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
   font-size: 14px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -14,10 +14,10 @@
   width: 100%;
   clear: both;
 display: block;  
-
+  font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 }
 
-.slider-text:nth-child(6) {
+.slider-text:nth-child(8) {
 
   @include mq($until: tablet) {
     display: none;
