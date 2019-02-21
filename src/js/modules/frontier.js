@@ -17,6 +17,7 @@ import mapstyles from '../modules/mapstyles.json'
 import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import Modal from '../modules/modal'
 import '../modules/Leaflet.GoogleMutant.js'
+//import 'leaflet-canvas-marker'
 import * as topojson from "topojson"
 import share from '../modules/share'
 import australia from '../modules/states.json'
