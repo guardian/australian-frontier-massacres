@@ -1,6 +1,8 @@
 import xr from 'xr';
 import { Frontier } from './modules/frontier'
 
+// https://preview.gutools.co.uk/global/ng-interactive/2019/feb/20/the-killing-times-massacre-map-of-australias-frontier-wars
+
 var key = "14koGjGRg_2I5CW9In9jdxm-4xUaiSK0ee0FCs4h_Tb8"
 
 //'https://interactive.guim.co.uk/docsdata/14koGjGRg_2I5CW9In9jdxm-4xUaiSK0ee0FCs4h_Tb8.json'
