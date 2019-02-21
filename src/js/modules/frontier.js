@@ -14,7 +14,7 @@ import noUiSlider from 'nouislider'
 import moment from 'moment'
 import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
-import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
+import L from '../modules/leaflet/dist/leaflet-src' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import Modal from '../modules/modal'
 import '../modules/Leaflet.GoogleMutant.js'
 //import 'leaflet-canvas-marker'
@@ -1081,6 +1081,7 @@ export class Frontier {
                     fillColor: colourizer(item.total_dead),
                     fillOpacity: 0.5,
                     id: item.id,
+                    coloniser: (item.Primary_Victim_Group=='Aboriginal') ? false : true,
                     radius: self.getRadius()
                 });
 

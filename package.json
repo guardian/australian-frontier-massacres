@@ -60,7 +60,6 @@
     "google-maps": "^3.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
-    "leaflet": "^1.4.0",
     "lodash": "^4.17.10",
     "moment": "^2.24.0",
     "mustache": "^2.3.0",
