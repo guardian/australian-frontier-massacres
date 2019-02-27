@@ -335,7 +335,7 @@
 						<div class="frontier-container-inner">
 							<div class="topfive_container">			
 
-								<p><strong>About this map: </strong>Each circle indicates the location of a fatal historical conflict between Indigenous Australians and settlers during the British colonisation of Australia, where more than six people died. Click on a circle to view information about the conflict. Click the "About" tab to read about our data collection methods.</p>
+								<p><strong>About this map: </strong>Each marker indicates the location of a fatal historical conflict between Indigenous Australians and settlers during the British colonisation of Australia, where more than six people died. Click on a marker to view information about the conflict. Click the "About" tab to read about our data collection methods.</p>
 
 							</div>
 						</div>
@@ -356,48 +356,20 @@
 							{{#if Known_Date}}<h3>{{Known_Date}}</h3>{{else}}<h3>{{year}}</h3>{{/if}}
 							<div class="frontier-results-list-item frontier-results-list-item_sparkline">
 								<div class="frontier-container-col-66">
-									<p>{{{Narrative}}}</p>
-
 
 									{{#if article}}
 
-										{{#editorial}}
+										<div class="hero_image">
 
-											{{#if image}}
+											<img src="{{Image}}">
 
-												<div class="hero_image">
+											<div class="photocaption">{{Caption}}</div>
 
-													<img src="{{image.src}}">
-
-												</div>
-
-											{{/if}}
-
-											{{#if articlebody}}
-
-												{{#each articlebody}}
-
-													{{#if value.src}}
-
-														<div class="inline_image">
-
-															<img src="{{value.src}}">
-
-														</div>
-
-													{{else}}
-
-														<p>{{value}}</p>
-
-													{{/if}}
-
-												{{/each}}
-
-											{{/if}}
-
-										{{/editorial}}
+										</div>
 
 									{{/if}}
+
+									<p>{{{Narrative}}}</p>
 
 								</div>
 								<div class="frontier-container-col-33">

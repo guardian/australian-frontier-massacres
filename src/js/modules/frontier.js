@@ -102,7 +102,7 @@ export class Frontier {
             self.googledoc[i].Coloniser_Dead_Mean = +self.googledoc[i].Coloniser_Dead_Mean
             self.googledoc[i].year = moment(self.googledoc[i].Date_Mid, 'YYYY-MM-DD').format('YYYY');
             self.googledoc[i].identities = []
-            self.googledoc[i].article = (self.googledoc[i].Key!="") ? true : false ;
+            self.googledoc[i].article = (self.googledoc[i].Image!="") ? true : false ;
             self.googledoc[i].AborigEst = self.estimizer('Aboriginal', self.googledoc[i].Aborig_Dead_Min, self.googledoc[i].Aborig_Dead_Max, self.googledoc[i].Aborig_Dead_Mean)
             self.googledoc[i].ColoniserEst = self.estimizer('Coloniser', self.googledoc[i].Coloniser_Dead_Min, self.googledoc[i].Coloniser_Dead_Max, self.googledoc[i].Coloniser_Dead_Mean)
 
@@ -1199,22 +1199,6 @@ export class Frontier {
 
     }
 
-    loadArticle(key) {
-
-        var self = this
-
-        xr.get(`https://interactive.guim.co.uk/docsdata/${key}.json?t=${new Date().getTime()}`).then((resp) => {
-
-            self.database.massacre.editorial = resp.data
-
-            self.ractive.set(self.database)
-
-            self.scrollTo($("#frontier-results"), 200)
-
-        });
-
-    }
-
     loadMassacre(id) {
 
         var self = this
@@ -1227,19 +1211,9 @@ export class Frontier {
 
         self.database.massacre = massacre
 
-        if (self.database.massacre.article) {
+        self.ractive.set(self.database)
 
-            self.loadArticle(self.database.massacre.Key)
-
-        } else {
-
-            self.database.massacre.editorial = []
-
-            self.ractive.set(self.database)
-
-            self.scrollTo($("#frontier-results"), 200)
-
-        }
+        self.scrollTo($("#frontier-results"), 200)
 
     }
 
