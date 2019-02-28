@@ -9,6 +9,7 @@
 
         @include mq($until: tablet) {
             font-size: 10px;
+            padding-left: 10px;
         }       
 
         @include mq($from: tablet) {

@@ -17,6 +17,7 @@ import mapstyles from '../modules/mapstyles.json'
 import L from '../modules/leaflet/dist/leaflet-src' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import Modal from '../modules/modal'
 import '../modules/Leaflet.GoogleMutant.js'
+import '../modules/sidebar.js'
 import * as topojson from "topojson"
 import share from '../modules/share'
 import australia from '../modules/states.json'
@@ -552,7 +553,9 @@ export class Frontier {
 
             self.database.legend = self.database.legend ? false : true ;
 
-            self.ractive.set(self.database)
+            self.ractive.set(self.database);
+
+            (self.database.legend) ? self.sidebar.hide() : self.sidebar.show() ;
 
         });
 
@@ -561,6 +564,8 @@ export class Frontier {
             self.database.legend = self.database.legend ? false : true ;
 
             self.ractive.set(self.database)
+
+            self.sidebar.hide()
 
         });
 
@@ -677,6 +682,16 @@ export class Frontier {
                 fillOpacity: 0,
             }
         }).addTo(self.map);
+
+        self.sidebar = L.control.sidebar('sidebar', {
+
+            position: 'left'
+
+        });
+
+        self.map.addControl(self.sidebar);
+
+        (self.database.legend) ? self.sidebar.hide() : self.sidebar.show() ;
 
         // Set the circle radius depending on zoom level
 
@@ -1140,7 +1155,7 @@ export class Frontier {
             {coloniser}<br /><br />
             <div class="totaline"></div>
             <strong>Total dead:</strong> {total}<br /><br />
-            <div class="readmore" data-id="{id}">Click to see full description</div>`;
+            <div class="readmore" data-id="{id}">Read full description below</div>`;
 
         self.massacres.on('mouseover', (e) => {
 
@@ -1229,7 +1244,11 @@ export class Frontier {
 
         self.ractive.set(self.database)
 
-        self.scrollTo($("#frontier-results"), 200)
+        if (!self.database.isMobile) {
+
+            self.scrollTo($("#frontier-results"), 200)
+
+        }
 
     }
 
