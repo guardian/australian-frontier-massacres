@@ -56,7 +56,6 @@
       opacity: .8;
     }
 
-
 	.slider-death-count {
 		width: 100%;
 	}
@@ -67,17 +66,15 @@
 		float: left;
 		padding-bottom: 25%;
 
+		@include mq($until: tablet) {
+			margin-bottom: 2px;
+			margin-top: 2px;
+		}
 
-	@include mq($until: tablet) {
-		margin-bottom: 2px;
-		margin-top: 2px;
-	}
-
-	@include mq($from: tablet) {
-		margin-bottom: 10px;
-		margin-top: 10px;
-	}
-
+		@include mq($from: tablet) {
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
 
 	}
 
@@ -91,8 +88,8 @@
 		float: left;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		cursor: pointer;
-		line-height: 14px;
-		font-size: 14px;
+		line-height: 12px;
+		font-size: 12px;
 		text-align: center;
 	}
 
@@ -105,10 +102,48 @@
 		float: left;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
 		cursor: pointer;
-		line-height: 14px;
-		font-size: 14px;
+		line-height: 12px;
+		font-size: 12px;
 		text-align: center;
 	}
+
+	.filter-selected {
+		width: 90%;
+		height: 90%;
+		background: #cca92c;
+		cursor: pointer;
+		box-shadow: 0 0 0 rgba(204,169,44, 0.9);
+		animation: pulse 2s infinite;
+		border: 2px solid #1d272f;
+	}
+
+	@-webkit-keyframes pulse {
+	  0% {
+	    -webkit-box-shadow: 0 0 0 5px rgba(56,69,79, 0.9);
+	  }
+	  70% {
+	      -webkit-box-shadow: 0 0 0 10px rgba(56,69,79, 0.4);
+	  }
+	  100% {
+	      -webkit-box-shadow: 0 0 0 5px rgba(56,69,79, 0.4);
+	  }
+	}
+	@keyframes pulse {
+	  0% {
+	    -moz-box-shadow: 0 0 0 5px rgba(56,69,79, 0.9);
+	    box-shadow: 0 0 0 5px rgba(56,69,79, 0.4);
+	  }
+	  70% {
+	      -moz-box-shadow: 0 0 0 10px rgba(56,69,79, 0.4);
+	      box-shadow: 0 0 0 10px rgba(56,69,79, 0);
+	  }
+	  100% {
+	      -moz-box-shadow: 0 0 0 5px rgba(56,69,79, 0.4);
+	      box-shadow: 0 0 0 5px rgba(56,69,79, 0);
+	  }
+	}
+
+
 
 	.slider-death-count-box:nth-child(1) .slider-death-count-circle {
 		background-color: #38454F;
@@ -127,24 +162,15 @@
 	}
 
 	.fatalities-box:nth-child(1) .fatalities-count {
-		border-color: white;
-		border-width: 1px;
-		border-style: solid;
 		background-color: #38454F;
 	}
 
 	.fatalities-box:nth-child(2) .fatalities-count {
 		border-radius: 50%;
-		border-color: white;
-		border-width: 1px;
-		border-style: solid;
 		background-color: #38454F;
 	}
 
 	.fatalities-box:nth-child(3) .fatalities-count {
-		border-color: white;
-		border-width: 1px;
-		border-style: solid;
 		background-color: #38454F;
 	}
 

@@ -78,7 +78,7 @@
 
 					<div class="mode-container">
 
-						<div class="mode-label">Explore mode</div>
+						<div class="mode-label">Explore map</div>
 					
 						<div id="info-1" class="mode-switch-box">
 							<label class="switch">
@@ -87,7 +87,7 @@
 							</label>
 						</div>
 
-						<div class="mode-label">Proximity mode</div>
+						<div class="mode-label">Search by location</div>
 
 					</div>
 
@@ -143,13 +143,13 @@
 
 				<div class="navigation-bar">
 
-					<div class="more-container">
+					<div class="more-container" on-tap="['results']">
 
 						<div class="more-switch-box">
-							<div id="info-2" class="more-switch" on-tap="['results']"></div>
+							<div id="info-2" class="more-switch" ></div>
 						</div>
 
-						<div class="more-label">{{#if legend}}Show filter panel{{else}}Hide filter panel{{/if}}</div>
+						<div class="more-label">{{#if legend}}Show filter panel{{else}}{{#if isMobile}}Show map{{else}}Hide filter panel{{/if}}{{/if}}</div>
 
 					</div>
 					
@@ -201,25 +201,25 @@
 					<div class="slider-death-count">
 
 						<div class="slider-death-count-box">
-							<div class="slider-death-count-circle" on-tap="['deathcount', 'All']">
+							<div class="slider-death-count-circle{{#if deathcountCheck('All',filterDeaths)}} filter-selected{{/if}}" on-tap="['deathcount', 'All']">
 								<div class="slider-death-count-label">Show All</div>
 							</div>
 						</div>
 
 						<div class="slider-death-count-box">
-							<div class="slider-death-count-circle" on-tap="['deathcount', '6 to 10']">
+							<div class="slider-death-count-circle{{#if deathcountCheck('6 to 10',filterDeaths)}} filter-selected{{/if}}" on-tap="['deathcount', '6 to 10']">
 								<div class="slider-death-count-label">6 to 10</div>
 							</div>
 						</div>
 
 						<div class="slider-death-count-box">
-							<div class="slider-death-count-circle" on-tap="['deathcount', '11 to 20']">
+							<div class="slider-death-count-circle{{#if deathcountCheck('11 to 20',filterDeaths)}} filter-selected{{/if}}" on-tap="['deathcount', '11 to 20']">
 								<div class="slider-death-count-label">11 to 20</div>
 							</div>
 						</div>
 
 						<div class="slider-death-count-box">
-							<div class="slider-death-count-circle" on-tap="['deathcount', 'More than 20']">
+							<div class="slider-death-count-circle{{#if deathcountCheck('More than 20',filterDeaths)}} filter-selected{{/if}}" on-tap="['deathcount', 'More than 20']">
 								<div class="slider-death-count-label">More than 20</div>
 							</div>
 						</div>
@@ -231,7 +231,7 @@
 					<div class="slider-death-count">
 
 						<div class="fatalities-box">
-							<div class="fatalities-count" on-tap="['fatalities', 'All']">
+							<div class="fatalities-count{{#if fatalitiesCheck('All',fatalities)}} filter-selected{{/if}}" on-tap="['fatalities', 'All']">
 								<div class="fatalities-inner-circle">
 									<div class="fatalities-label">Show All</div>
 								</div>
@@ -239,13 +239,13 @@
 						</div>
 
 						<div class="fatalities-box">
-							<div class="fatalities-count" on-tap="['fatalities', 'Aboriginal']">
+							<div class="fatalities-count{{#if fatalitiesCheck('Aboriginal',fatalities)}} filter-selected{{/if}}" on-tap="['fatalities', 'Aboriginal']">
 								<div class="fatalities-label">Aboriginal</div>
 							</div>
 						</div>
 
 						<div class="fatalities-box">
-							<div class="fatalities-count" on-tap="['fatalities', 'Colonisers']">
+							<div class="fatalities-count{{#if fatalitiesCheck('Colonisers',fatalities)}} filter-selected{{/if}}" on-tap="['fatalities', 'Colonisers']">
 								<div class="fatalities-label">Coloniser</div>
 							</div>
 						</div>
@@ -329,19 +329,23 @@
 
 			{{else}}
 
-			<section id="frontier-results" class="frontier-results">
-				<div class="frontier-results-header">
-					<div class="frontier-container frontier-bg-grey">
-						<div class="frontier-container-inner">
-							<div class="topfive_container">			
+				{{#if first}}
 
-								<p><strong>About this map: </strong>Each marker indicates the location of a fatal historical conflict between Indigenous Australians and settlers during the British colonisation of Australia, where more than six people died. Click on a marker to view information about the conflict. Click the "About" tab to read about our data collection methods.</p>
+				<section id="frontier-results" class="frontier-results">
+					<div class="frontier-results-header">
+						<div class="frontier-container frontier-bg-grey">
+							<div class="frontier-container-inner">
+								<div class="topfive_container">			
 
+									<p><strong>About this map: </strong>Each marker indicates the location of a fatal historical conflict between Indigenous Australians and settlers during the British colonisation of Australia, where more than six people died. Click on a marker to view information about the conflict. Click the "About" tab to read about our data collection methods.</p>
+
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</section>
+
+				{{/if}}
 
 			{{/if}}
 

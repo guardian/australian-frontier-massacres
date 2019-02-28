@@ -116,7 +116,7 @@ export class Frontier {
 
         }
 
-        this.latitude = -25.191917
+        this.latitude = -27
 
         this.longitude = 133.772541
 
@@ -124,7 +124,7 @@ export class Frontier {
 
         this.northEast = { lat: -10.935978, lng: 154.641985 }
 
-        this.zoom = 5
+        this.zoom = (self.screenWidth < 600) ? 3 : (self.screenWidth < 800) ? 4 : 5 ;
 
         this.zoomstart = 5
 
@@ -172,7 +172,7 @@ export class Frontier {
 
             DateStart: 1776,
 
-            DateEnd: 1929,
+            DateEnd: 1928,
 
             records: [],
 
@@ -210,6 +210,8 @@ export class Frontier {
 
             legend: (self.isMobile|| window.location.origin === "file://" || window.location.origin === null) ? true: false,
 
+            isMobile: (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? true: false,
+
             isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false ,
 
             logging: "Console log output for testing:<br/>",
@@ -217,6 +219,20 @@ export class Frontier {
             smallScreen: null,
 
             fatalities: 'All',
+
+            first: true,
+
+            fatalitiesCheck: function(fatalities,category) {
+
+                return (fatalities==category) ? true : false;
+
+            },
+
+            deathcountCheck: function(deathCount,category) {
+
+                return (deathCount==category) ? true : false;
+
+            },
 
             url: function(urlWeb) {
 
@@ -453,8 +469,6 @@ export class Frontier {
         this.ractive.on('fatalities', (context, fatalities) => {
 
             self.database.fatalities = fatalities;
-
-            console.log(fatalities)
 
             self.getData().then( (data) => {
 
@@ -1111,6 +1125,8 @@ export class Frontier {
 
         self.massacres.on("click", (e) => {
 
+            self.database.first = false
+
             self.map.panTo(new L.LatLng(e.latlng.lat, e.latlng.lng));
 
             self.loadMassacre(e.layer.options.id);
@@ -1262,7 +1278,6 @@ export class Frontier {
             }
 
             var data_three = data_two.filter(function(item) {
-
 
                 if ( self.toolbelt.contains(item.identities, identities) ) {
 
