@@ -10,6 +10,8 @@
 	background-color: #92979b;
 	position: absolute;
 	box-sizing: border-box;
+	overflow-y: scroll;
+
 	
 	z-index: 9999999;
 
@@ -39,6 +41,9 @@
 
 
 	}
+
+
+
 
 
     .close {
@@ -200,4 +205,17 @@
 
 .leaflet-top {
 	bottom: 0px;
+}
+
+#legend::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+#legend::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+}
+ 
+#legend::-webkit-scrollbar-thumb {
+  background-color: #92979b;
+  outline: 1px solid #92979b;
 }
