@@ -749,10 +749,6 @@ export class Frontier {
 
         });
 
-        //var scene = document.getElementById('parallax');
-
-        //var parallaxInstance = new Parallax(scene);
-
         this.compile()
 
         this.topo()
@@ -1120,6 +1116,26 @@ export class Frontier {
 
     }
 
+    highlight(id) {
+
+        var self = this
+
+        for (var i = 0; i < self.array.length; i++) {
+
+            let marker = self.array[i]
+
+            if (self.array[i].options.id == id) {
+
+                marker.setRadius( self.getRadius() * 2 );
+
+            } else {
+
+                marker.setRadius( self.getRadius() );
+            }
+        }
+
+    }
+
     colourizer(num) {
 
         return (num < 11) ? '1' : (num < 21) ? '2' : '3' ;
@@ -1188,6 +1204,8 @@ export class Frontier {
 
             self.loadMassacre(e.layer.options.id);
 
+            self.highlight(e.layer.options.id)
+
         });
 
         var tooltipTemplate = `<strong>{site}</strong><br />
@@ -1197,7 +1215,7 @@ export class Frontier {
             {coloniser}<br /><br />
             <div class="totaline"></div>
             <strong>Total dead:</strong> {total}<br /><br />
-            <div class="readmore" data-id="{id}">Read full description below</div>`;
+            <div class="readmore" data-id="{id}">Click on marker to read full description below</div>`;
 
         self.massacres.on('mouseover', (e) => {
 
@@ -1221,7 +1239,7 @@ export class Frontier {
 
             var tooltipContent = L.Util.template(tooltipTemplate, tooltipData); 
 
-            var popup = L.popup().setLatLng(e.latlng).setContent(tooltipContent).openOn(self.map);
+            self.popup = L.popup().setLatLng(e.latlng).setContent(tooltipContent).openOn(self.map);
 
             if (self.database.topfive.length > 0) {
 
@@ -1240,6 +1258,11 @@ export class Frontier {
         });
 
         self.massacres.on('mouseout', (e) => {
+
+            if (self.popup && self.map) {
+                self.map.closePopup(self.popup);
+                self.popup = null;
+            }
 
             var massacre = document.querySelectorAll(".massacre_row")
 
