@@ -654,7 +654,7 @@ export class Frontier {
 
             // title, shareURL, fbImg, twImg, hashTag, FBmessage=''
 
-            let sharegeneral = share(title, "https://www.theguardian.com/environment/ng-interactive/2019/feb/25/the-killing-times", '', '', '#KillingTimes', message);
+            let sharegeneral = share(title, "https://www.theguardian.com/australia-news/ng-interactive/2019/mar/04/massacre-map-australia-the-killing-times-frontier-wars", '', '', '#KillingTimes', message);
 
             sharegeneral(channel);
 
