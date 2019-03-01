@@ -207,7 +207,7 @@ export class Frontier {
 
             filterSpecial: "",
 
-            proximity: (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? true: false,
+            proximity: false,
 
             legend: (self.isMobile|| window.location.origin === "file://" || window.location.origin === null) ? true: false,
 
@@ -423,6 +423,35 @@ export class Frontier {
             }
 
             self.ractive.set(self.database)
+
+        });
+
+
+        this.ractive.on( 'keydown', function ( event ) {
+
+            if (event.original.keyCode===13) {
+
+                if (self.database.postcodeShortlist.length > 0 && self.database.list) {
+
+                    var lat = self.database.postcodeShortlist[0].latitude
+                    var lng = self.database.postcodeShortlist[0].longitude
+
+                    self.database.user_input = ""
+                    self.database.list = false
+                    self.database.radial = true
+                    self.ractive.set(self.database)
+                    self.getClosest(lat, lng)
+
+                } else {
+
+                    console.log("Nothing to see here")
+
+                }
+
+                event.original.preventDefault()
+
+            }
+           
 
         });
 
@@ -706,6 +735,7 @@ export class Frontier {
             }
 
         });
+
 
         this.map.on('click', function(e) {
 
@@ -1031,6 +1061,7 @@ export class Frontier {
                 function(l){ 
                     self.rads.removeLayer(l);
             });
+
         }
 
     }
@@ -1045,6 +1076,7 @@ export class Frontier {
                 function(l){ 
                     self.rads.removeLayer(l);
             });
+
         }
 
         var array = [];
@@ -1071,6 +1103,16 @@ export class Frontier {
             array.push(radius);
 
         }
+
+        let location = new L.circle([lat, lng], {
+                    color: 'white',
+                    opacity: 3,
+                    fillColor: '#2496f9',
+                    fillOpacity: 0.5,
+                    radius: 2000
+                });
+
+        array.push(location);
 
         self.rads = L.featureGroup(array).addTo(self.map);
 
