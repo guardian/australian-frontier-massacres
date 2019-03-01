@@ -660,6 +660,13 @@ export class Frontier {
 
         });
 
+        this.ractive.on('showLink', function(e) {
+
+            self.database.massacre.showLink = self.database.massacre.showLink ? false : true ;
+
+            self.ractive.set(self.database)
+        })
+
         this.resize()
         
         this.googleizer()
@@ -735,7 +742,6 @@ export class Frontier {
             }
 
         });
-
 
         this.map.on('click', function(e) {
 
@@ -1305,7 +1311,11 @@ export class Frontier {
 
         });
 
+        massacre.showLink = false,
+
         self.database.massacre = massacre
+
+        console.log(self.database.massacre)
 
         self.ractive.set(self.database)
 
@@ -1497,6 +1507,24 @@ export class Frontier {
             }
 
         };
+
+    }
+
+    caseload(idcfv) {
+
+        var self = this
+
+        var data = self.googledoc.filter(function(d) { return d.idcfv === idcfv })
+
+        if (data.length > 0) {
+
+            self.map.panTo(new L.LatLng(data[0].Latitude, data[0].Longitude));
+
+            self.loadMassacre(data[0].id);
+
+            self.highlight(data[0].id)
+
+        }
 
     }
 

@@ -252,8 +252,6 @@
 						
 					</div>
 
-
-
 					<div class="slider-text">Filter massacres by perpetrator groups:</div>
 
 				    <div class="involvement-filter">
@@ -292,12 +290,7 @@
 
 				<div id="sidebar"></div>
 
-
 			</div>
-
-
-
-
 
 			{{#if topfive}}
 			<section id="frontier-results" class="frontier-results">
@@ -382,30 +375,53 @@
 									<p>{{{Narrative}}}</p>
 
 								</div>
+
 								<div class="frontier-container-col-33">
-									<p><small>
-									{{#if Motive}}Motive: {{Motive}}<br/>{{/if}}
-									{{#if AborigEst}}{{{AborigEst}}}<br/>{{/if}}
-									{{#if ColoniserEst}}{{{ColoniserEst}}}<br/> {{/if}}
-									</small></p>
+									<p>
+										<small>
+											{{#if Motive}}Motive: {{Motive}}<br/>{{/if}}
+											{{#if AborigEst}}{{{AborigEst}}}<br/>{{/if}}
+											{{#if ColoniserEst}}{{{ColoniserEst}}}<br/> {{/if}}
+										</small>
+									</p>
 								</div>
+
+								<div class="share-link-box">
+
+									<div on-tap='showLink' class="about_database">Share this link</div>
+
+									{{#showLink}}
+
+									<div class="incident-link">
+
+										<input class="incident-link-field" value="http://preview.gutools.co.uk/global/ng-interactive/2019/feb/28/the-killing-times-massacre-map-of-australias-frontier-wars?incident={{idcfv}}">
+
+									</div>
+
+									{{/showLink}}
+									
+								</div>
+
 							</div>
 
 							<small>Written by {{{WrittenBy}}}</small>
+
 						</div>
+
 					</div>
+
 				</div>
+
 				<div class="frontier-results-footer">
+
 					<div class="frontier-container">
 
-						<div on-tap="['top']" class="about_database">Back to top</div>
+						<div on-tap="['top']" class="about_database" style="float:right;">Back to top</div>
 
-						<!--div class="frontier-container-inner text-right">
-							<button class="frontier-button" on-tap="['top']"><svg height="18" viewbox="0 0 24 18" width="24">
-							<path d="M.4 15.3l10.5-8.4L12 6l1.1.9 10.5 8.4-.5.7L12 9.7.9 16l-.5-.7z"></path></svg> Back to top</button>
-						</div-->
 					</div>
+
 				</div>
+
 			</section>
 			{{/massacre}}
 			{{/if}} 

@@ -1,9 +1,14 @@
 import xr from 'xr';
 import { Frontier } from './modules/frontier'
+import { Toolbelt } from './modules/toolbelt'
 
 // https://preview.gutools.co.uk/global/ng-interactive/2019/feb/20/the-killing-times-massacre-map-of-australias-frontier-wars
 
 var key = "14koGjGRg_2I5CW9In9jdxm-4xUaiSK0ee0FCs4h_Tb8"
+
+var toolbelt = new Toolbelt()
+
+var incident = toolbelt.getURLParams('incident');
 
 //'https://interactive.guim.co.uk/docsdata/14koGjGRg_2I5CW9In9jdxm-4xUaiSK0ee0FCs4h_Tb8.json'
 
@@ -32,6 +37,12 @@ xr.get('https://interactive.guim.co.uk/docsdata/' + key + '.json').then((resp) =
 	        if (op <= 0.1){
 	            clearInterval(timer);
 	            painting.style.display = 'none';
+
+				if (incident!=null) {
+					the_killing_time.caseload(incident)
+				}
+
+
 	        }
 	        painting.style.opacity = op;
 	        painting.style.filter = 'alpha(opacity=' + op * 100 + ")";
