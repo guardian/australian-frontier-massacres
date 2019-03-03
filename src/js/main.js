@@ -6,7 +6,7 @@ document.body.appendChild(el);
 
 window.fbAsyncInit = function() {
     FB.init({
-      appId            : '741666719251986',
+      appId            : '180444840287',
       autoLogAppEvents : true,
       xfbml            : true,
       version          : 'v2.10'
