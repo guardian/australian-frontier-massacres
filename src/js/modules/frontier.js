@@ -317,7 +317,7 @@ export class Frontier {
 
             document.body.data = setTimeout( function() { 
 
-                console.log("Resized")
+                // console.log("Resized")
 
                 self.screenWidth = document.documentElement.clientWidth
 
@@ -355,7 +355,7 @@ export class Frontier {
            self.requestAnimationFrame = undefined;
         }
 
-        console.log("The loop has been closed")
+        // console.log("The loop has been closed")
 
     }
 
@@ -442,10 +442,6 @@ export class Frontier {
                     self.ractive.set(self.database)
                     self.getClosest(lat, lng)
 
-                } else {
-
-                    console.log("Nothing to see here")
-
                 }
 
                 event.original.preventDefault()
@@ -464,8 +460,6 @@ export class Frontier {
         })
 
         this.ractive.on('tips', (context) => {
-
-            console.log("Tips")
 
             self.database.currentTip = (self.database.currentTip == self.database.tips.length - 1) ? 0 : self.database.currentTip + 1 ;
 
@@ -753,6 +747,14 @@ export class Frontier {
 
                 self.getClosest(e.latlng.lat, e.latlng.lng)
 
+            } else {
+
+                if (self.database.isMobile) {
+
+                    self.getNearest(e.latlng.lat, e.latlng.lng)
+
+                }
+
             }
 
         });
@@ -1013,6 +1015,32 @@ export class Frontier {
 
     }
 
+    getNearest(lat, lng) {
+
+        var self = this
+
+        for (var i = 0; i < self.database.records.length; i++) {
+
+            self.database.records[i].distance = self.gis.sphericalCosinus(self.database.records[i].Latitude, self.database.records[i].Longitude,lat,lng)
+
+        }
+
+        self.database.records.sort( (a, b) => {
+
+            return a["distance"] - b["distance"]
+
+        });
+
+        if (self.database.records.length > 0) {
+
+            self.loadMassacre(self.database.records[0].id)
+
+            self.highlight(self.database.records[0].id)
+
+        }
+
+    }
+
     getClosest(lat, lng) {
 
         var self = this
@@ -1214,6 +1242,8 @@ export class Frontier {
 
             self.highlight(e.layer.options.id)
 
+            L.DomEvent.stopPropagation(e)
+
         });
 
         var tooltipTemplate = `<strong>{site}</strong><br />
@@ -1317,7 +1347,7 @@ export class Frontier {
 
         self.database.massacre = massacre
 
-        console.log(self.database.massacre)
+         // console.log(self.database.massacre)
 
         self.ractive.set(self.database)
 
