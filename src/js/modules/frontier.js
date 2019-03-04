@@ -749,7 +749,13 @@ export class Frontier {
 
             } else {
 
+                self.database.first = false
+
+                self.database.logging = self.database.logging += `Proximity mode: ${self.database.proximity} | iSMobile: ${self.database.isMobile}<br/>`
+
                 if (self.database.isMobile) {
+
+                    self.database.logging = self.database.logging += "Mobile map clicked<br/>"
 
                     self.getNearest(e.latlng.lat, e.latlng.lng)
 
