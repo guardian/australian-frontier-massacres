@@ -127,8 +127,6 @@ export class Frontier {
 
         this.zoom = (self.screenWidth < 600) ? 3 : (self.screenWidth < 800) ? 4 : 5 ;
 
-        this.zoomstart = 5
-
         this.map = null
 
         this.database = {
@@ -265,13 +263,36 @@ export class Frontier {
 
         this.database.records = this.googledoc
 
-        this.database.height = (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? self.screenWidth : self.screenHeight ;
+        this.database.height = self.viewporter()
 
         this.database.smallScreen = this.screenTest()
 
         this.postcoder()
 
-	}
+	} 
+
+    viewporter() {
+
+        var self = this
+
+        var mapheight = self.screenHeight
+
+        if (self.isMobile || window.location.origin === "file://" || window.location.origin === null) {
+
+            if (self.screenWidth > self.screenHeight) {
+
+                mapheight = self.screenWidth / 2
+
+            } else {
+
+                mapheight = self.screenWidth
+            }
+
+        }
+
+        return mapheight
+
+    }
 
     estimizer(label, min, max, mean) {
 
@@ -317,7 +338,7 @@ export class Frontier {
 
             document.body.data = setTimeout( function() { 
 
-                // console.log("Resized")
+                console.log("Resized")
 
                 self.screenWidth = document.documentElement.clientWidth
 
@@ -333,15 +354,26 @@ export class Frontier {
 
                 }
 
-                self.database.height = (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? self.screenWidth : self.screenHeight ;
+                self.database.height = self.viewporter()
 
-                self.database.smallScreen = self.screenTest()
+                self.database.smallScreen = self.screenTest();
 
-                self.ractive.set(self.database)
+                self.zoom = (self.screenWidth < 600) ? 3 : (self.screenWidth < 800) ? 4 : 5 ;
+
+                self.ractive.set(self.database);
+
+                self.map.invalidateSize();
 
             }, 200);
 
         });
+
+        window.addEventListener("orientationchange", function() {
+            
+            console.log("orientationchange")
+            
+        }, false);
+
 
     }
 
