@@ -1,7 +1,6 @@
 import template from '../../templates/template.html'
 import modalTemplate from '../../templates/modal.html'
 import tipsTemplate from '../../templates/tips.html'
-import xr from 'xr';
 import palette from '../modules/palette'
 import { Toolbelt } from '../modules/toolbelt'
 import { Gis } from '../modules/gis'
@@ -30,244 +29,21 @@ Ractive.DEBUG = false;
 
 export class Frontier {
 
-	constructor(data) {
+	constructor(application) {
 
 		var self = this
+
+        this.map = null
+
+        this.database = application.database
+
+        this.googledoc = application.database.records
+
+        this.settings = application.settings
 
         this.toolbelt = new Toolbelt()
 
         this.gis = new Gis()
-
-        this.screenWidth = document.documentElement.clientWidth
-
-        this.screenHeight = document.documentElement.clientHeight
-
-        this.isMobile = this.toolbelt.mobileCheck()
-
-        this.nom = 5 // Number of masacres on radial search
-
-        this.googledoc = data
-
-        this.boundingbox = [{
-
-            "northEast" : { "lat": -10.935978, "lng": 154.641985 },
-
-            "southWest" : { "lat": -43.656082, "lng": 112.015037 }
-
-        }]
-
-        this.identities =   [{
-          value: "0",
-          label: "Aboriginal Civilians",
-          tag: "Aboriginal_Civilians",
-          selected: true
-        },{
-          value: "1",
-          label: "Aboriginal Warriors",
-          tag: "Aboriginal_Warriors",
-          selected: true
-        },{
-          value: "2",
-          label: "Military / Police / Government",
-          tag: "Military_Police_Government",
-          selected: true
-        },{
-          value: "3",
-          label: "Native Police",
-          tag: "Native_Police",
-          selected: true
-        },{
-          value: "4",
-          label: "Settlers / Stockmen",
-          tag: "Settlers_Stockmen",
-          selected: true
-        },{
-          value: "5",
-          label: "Colonial Civilians",
-          tag: "Colonial_Civilians",
-          selected: true
-        }]
-
-        for (var i = 0; i < self.googledoc.length; i++) {
-
-            self.googledoc[i].id = i
-            self.googledoc[i].Latitude = +self.googledoc[i].Latitude
-            self.googledoc[i].Longitude = +self.googledoc[i].Longitude
-            self.googledoc[i].idcfv = self.googledoc[i].idcfv
-            self.googledoc[i].total_dead = +self.googledoc[i].Total_Dead_Mean //+self.googledoc[i].Coloniser_Dead + +self.googledoc[i].Aborig_Dead
-            self.googledoc[i].Aborig_Dead_Min = +self.googledoc[i].Aborig_Dead_Min
-            self.googledoc[i].Aborig_Dead_Max = +self.googledoc[i].Aborig_Dead_Max
-            self.googledoc[i].Aborig_Dead_Mean = +self.googledoc[i].Aborig_Dead_Mean
-            self.googledoc[i].Coloniser_Dead_Min = +self.googledoc[i].Coloniser_Dead_Min
-            self.googledoc[i].Coloniser_Dead_Max = +self.googledoc[i].Coloniser_Dead_Max
-            self.googledoc[i].Coloniser_Dead_Mean = +self.googledoc[i].Coloniser_Dead_Mean
-            self.googledoc[i].year = moment(self.googledoc[i].Date_Mid, 'YYYY-MM-DD').format('YYYY');
-            self.googledoc[i].identities = []
-            self.googledoc[i].article = (self.googledoc[i].Image!="") ? true : false ;
-            self.googledoc[i].AborigEst = self.estimizer('Aboriginal', self.googledoc[i].Aborig_Dead_Min, self.googledoc[i].Aborig_Dead_Max, self.googledoc[i].Aborig_Dead_Mean)
-            self.googledoc[i].ColoniserEst = self.estimizer('Coloniser', self.googledoc[i].Coloniser_Dead_Min, self.googledoc[i].Coloniser_Dead_Max, self.googledoc[i].Coloniser_Dead_Mean)
-
-            for (var ii = 0; ii < self.identities.length; ii++) {
-
-                if (self.googledoc[i][self.identities[ii].tag]=='y') {
-                    self.googledoc[i].identities.push(ii)
-                }
-
-            }
-
-        }
-
-        this.latitude = -27
-
-        this.longitude = 133.772541
-
-        this.southWest = { lat: -43.656082, lng: 112.015037 }
-
-        this.northEast = { lat: -10.935978, lng: 154.641985 }
-
-        this.zoom = (self.screenWidth < 600) ? 3 : (self.screenWidth < 800) ? 4 : 5 ;
-
-        this.map = null
-
-        this.database = {
-
-            info: false,
-
-            tips: [{
-                "posX" : 0,
-                "posY" : 0,
-                "title" : "Explore and proximity mode",
-                "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected (either by using the postcode search feature or by tapping the geolocation button). In explore mode you can pan, zoom in or out, or reorientate the map to display incidents by state boundaries. In either mode click on a map marker to view more information about the massacres."
-            },{
-                "posX" : 0,
-                "posY" : 0,
-                "title" : "Filter panel toggle",
-                "tip" : "You can toggle the filter panel on and off. When the filter panel is open you can specify a date range, filter results by the number of fatalities, or display massacres in which certain groups were involved."
-            }],
-
-            tip: "",
-
-            tipDisplay: false,
-
-            currentTip: 0,
-
-            currentPosX: null,
-
-            currentPosY: null,
-
-            geolocation: false,
-
-            geocheck:  true,
-
-            userLatitude: null,
-
-            userLongitude: null,
-
-            latitude: null,
-
-            longitude: null,
-
-            height: null,
-
-            DateStart: 1776,
-
-            DateEnd: 1928,
-
-            records: [],
-
-            topfive: [],
-
-            massacre: [],
-
-            article: [],
-
-            postcodes: [],
-
-            postcodeShortlist: [],
-
-            list: false,
-
-            radial: false,
-
-            deaths: ["6 to 10", "11 to 20", "More than 20"],
-
-            motivation: ["Retribution", "Opportunity", "Defence", "Dispersal", "Unknown"],
-
-            specials: ["Aboriginal Civilians", "Aboriginal Warriors", "Military / Police / Government", "Native Police", "Settlers / Stockmen", "Colonial civilians"],
-
-            identities: [0,1,2,3,4,5],
-
-            outsiders: [],
-
-            filterMotivation: "All",
-
-            filterDeaths: "All",
-
-            filterSpecial: "",
-
-            proximity: false,
-
-            legend: (self.isMobile|| window.location.origin === "file://" || window.location.origin === null) ? true: false,
-
-            isMobile: (self.isMobile || window.location.origin === "file://" || window.location.origin === null) ? true: false,
-
-            isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false ,
-
-            logging: "Console log output for testing:<br/>",
-
-            smallScreen: null,
-
-            fatalities: 'All',
-
-            first: true,
-
-            fatalitiesCheck: function(fatalities,category) {
-
-                return (fatalities==category) ? true : false;
-
-            },
-
-            deathcountCheck: function(deathCount,category) {
-
-                return (deathCount==category) ? true : false;
-
-            },
-
-            url: function(urlWeb) {
-
-                return urlWeb;
-
-            },
-
-            dist: function(metres) {
-
-                return (metres / 1000).toFixed(1)
-
-            }
-
-        }
-
-        if (this.screenHeight > (this.screenWidth * 2)) {
-
-            this.screenHeight = this.screenWidth
-
-        } else {
-
-            this.screenHeight = this.screenHeight - 100
-
-        }
-
-        this.database.tip = this.database.tips[0].tip
-
-        this.database.logging = this.database.logging += `Mobile: ${(self.isMobile) ? true: false } <br/>` ;
-
-        this.database.records = this.googledoc
-
-        this.database.height = self.viewporter()
-
-        this.database.smallScreen = this.screenTest()
-
-        this.postcoder()
 
 	} 
 
@@ -275,17 +51,17 @@ export class Frontier {
 
         var self = this
 
-        var mapheight = self.screenHeight
+        var mapheight = self.settings.screenHeight
 
         if (self.isMobile || window.location.origin === "file://" || window.location.origin === null) {
 
-            if (self.screenWidth > self.screenHeight) {
+            if (self.settings.screenWidth > self.settings.screenHeight) {
 
-                mapheight = self.screenWidth / 2
+                mapheight = self.settings.screenWidth / 2
 
             } else {
 
-                mapheight = self.screenWidth
+                mapheight = self.settings.screenWidth
             }
 
         }
@@ -294,37 +70,9 @@ export class Frontier {
 
     }
 
-    estimizer(label, min, max, mean) {
-
-        var estimate = (min!=max&&min!=0&&max!=0) ? `<strong>${label} dead mean</strong>: ${mean} (min estimate: ${min}, max estimate: ${max})` : `<strong>${label} dead</strong>: ${mean}` ; 
-
-        return estimate
-
-    }
-
     screenTest() {
 
         return (window.innerWidth < 740) ? true : false ;
-
-    }
-
-    postcoder() {
-
-        var self = this
-
-        xr.get('https://interactive.guim.co.uk/docsdata/1bClr8buuWUaKj01NolwaJy2JR_SR5hKEAjQoJPaGKcw.json').then((resp) => {
-
-            self.database.postcodes = resp.data.sheets.postcodes
-
-            self.database.postcodes.forEach(function(value, index) {
-
-                value.latitude = +value.latitude
-                value.longitude = +value.longitude
-                value["meta"] = value.postcode + ' | ' + value.place_name;
-
-            });
-            
-        });
 
     }
 
@@ -340,25 +88,25 @@ export class Frontier {
 
                 console.log("Resized")
 
-                self.screenWidth = document.documentElement.clientWidth
+                self.settings.screenWidth = document.documentElement.clientWidth
 
-                self.screenHeight = document.documentElement.clientHeight
+                self.settings.screenHeight = document.documentElement.clientHeight
 
-                if (self.screenHeight > (self.screenWidth * 2)) {
+                if (self.settings.screenHeight > (self.settings.screenWidth * 2)) {
 
-                    self.screenHeight = self.screenWidth
+                    self.settings.screenHeight = self.settings.screenWidth
 
                 } else {
 
-                    self.screenHeight = self.screenHeight - 100
+                    self.settings.screenHeight = self.settings.screenHeight - 100
 
                 }
 
                 self.database.height = self.viewporter()
 
-                self.database.smallScreen = self.screenTest();
+                self.settings.smallScreen = self.screenTest();
 
-                self.zoom = (self.screenWidth < 600) ? 3 : (self.screenWidth < 800) ? 4 : 5 ;
+                self.settings.zoom = (self.settings.screenWidth < 600) ? 3 : (self.settings.screenWidth < 800) ? 4 : 5 ;
 
                 self.ractive.set(self.database);
 
@@ -381,13 +129,10 @@ export class Frontier {
 
         var self = this
 
-        // Remove render iframe
         if (self.requestAnimationFrame) {
            window.cancelAnimationFrame(self.requestAnimationFrame);
            self.requestAnimationFrame = undefined;
         }
-
-        // console.log("The loop has been closed")
 
     }
 
@@ -436,11 +181,11 @@ export class Frontier {
 
                self.database.list = true
 
-                var reg = new RegExp(input,'gi');
-
                 self.database.postcodeShortlist = self.database.postcodes.filter(function(item) {
 
-                    if (reg.test(item.meta)) {
+                    var results = item.meta.toLowerCase()
+
+                    if (results.includes(input.toLowerCase())) {
 
                         return item
 
@@ -502,9 +247,13 @@ export class Frontier {
         this.ractive.on('postcode', (context, lat, lng) => {
 
             self.database.user_input = ""
+
             self.database.list = false
+
             self.database.radial = true
+
             self.ractive.set(self.database)
+
             self.getClosest(lat, lng)
 
         })
@@ -521,7 +270,6 @@ export class Frontier {
 
         })
 
-
         this.ractive.on('fatalities', (context, fatalities) => {
 
             self.database.fatalities = fatalities;
@@ -533,7 +281,6 @@ export class Frontier {
             })
 
         })
-
 
         this.ractive.on( 'about', function ( context ) {
 
@@ -674,15 +421,9 @@ export class Frontier {
 
         this.ractive.on( 'social', function ( context, channel ) {
 
-            var title = "The Killing Times: a massacre map of Australia's frontier wars" ;
+            var shareURL = "https://www.theguardian.com/australia-news/ng-interactive/2019/mar/04/massacre-map-australia-the-killing-times-frontier-wars"
 
-            var message = "This interactive tells the stories that have long been kept out of our history books. It shows evidence of mass killings from 1788 until 1927: a sustained and systematic process of conflict and expansion"
-
-            var fbImg = "https://i.guim.co.uk/img/media/c87aa28f1a03e77c01e6b9ad30a6ed020fad07f1/0_0_2000_1200/master/2000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&s=7cdd30f3def215679560b5fb119570dd";
-
-            // title, shareURL, fbImg, twImg, hashTag, FBmessage=''
-
-            let sharegeneral = share(title, "https://www.theguardian.com/australia-news/ng-interactive/2019/mar/04/massacre-map-australia-the-killing-times-frontier-wars", fbImg, '', '#KillingTimes', message);
+            let sharegeneral = share(self.settings.title, shareURL, self.settings.fbImg, '', self.settings.twHash, self.settings.message);
 
             sharegeneral(channel);
 
@@ -719,8 +460,8 @@ export class Frontier {
 
         this.map = new L.Map('map', { 
             renderer: L.canvas(),
-            center: new L.LatLng(self.latitude, self.longitude), 
-            zoom: self.zoom,
+            center: new L.LatLng(self.settings.latitude, self.settings.longitude), 
+            zoom: self.settings.zoom,
             scrollWheelZoom: false,
             dragging: true,
             zoomControl: true,
@@ -968,7 +709,7 @@ export class Frontier {
 
             navigator.geolocation.getCurrentPosition(function(position) {
 
-                if (self.boundingbox[0].northEast.lng >= position.coords.longitude && position.coords.longitude >= self.boundingbox[0].southWest.lng && self.boundingbox[0].northEast.lat >= position.coords.latitude && position.coords.latitude >= self.boundingbox[0].southWest.lat) {
+                if (self.settings.northEast.lng >= position.coords.longitude && position.coords.longitude >= self.settings.southWest.lng && self.settings.northEast.lat >= position.coords.latitude && position.coords.latitude >= self.settings.southWest.lat) {
 
                     self.database.logging = self.database.logging += "Geolocation is supported<br/>";
 
@@ -1061,6 +802,8 @@ export class Frontier {
 
             self.database.records[i].distance = self.gis.sphericalCosinus(self.database.records[i].Latitude, self.database.records[i].Longitude,lat,lng)
 
+            console.log(self.gis.sphericalCosinus(self.database.records[i].Latitude, self.database.records[i].Longitude,lat,lng))
+
         }
 
         self.database.records.sort( (a, b) => {
@@ -1099,7 +842,7 @@ export class Frontier {
 
         });
 
-        var mark = (self.database.records.length > 5) ? self.nom : self.database.records.length ;
+        var mark = (self.database.records.length > 5) ? self.settings.radialResults : self.database.records.length ;
 
         var distance = self.database.records[mark].distance * 1.2 ;
 
@@ -1166,7 +909,7 @@ export class Frontier {
 
         } else {
 
-            var mark = (self.database.records.length > 5) ? self.nom - 1 : self.database.records.length - 1 ;
+            var mark = (self.database.records.length > 5) ? self.settings.radialResults - 1 : self.database.records.length - 1 ;
 
             let radius = L.circle([lat, lng], self.database.topfive[mark].distance,{ weight: 1, dashArray: "5 10", color:'darkgrey',opacity:countdown,fillOpacity:0})
 
@@ -1403,7 +1146,6 @@ export class Frontier {
 
         return new Promise((resolve, reject) => {
 
-            // Select the data that fall between the specified dates
             var data_one = self.googledoc.filter(function(item) {
 
                 if (item.year >= self.database.DateStart && item.year <= self.database.DateEnd) {
@@ -1414,7 +1156,6 @@ export class Frontier {
 
             });
 
-            // Set the range for the number of deaths
             var range = (self.database.filterDeaths === '6 to 10') ? [6,10] :
             (self.database.filterDeaths === '11 to 20') ? [11,20] :
             (self.database.filterDeaths === 'More than 20') ? [21,1000] : [0,1000] ;

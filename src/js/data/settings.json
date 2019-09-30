@@ -1,0 +1,88 @@
+{
+
+    "latitude" : -27,
+
+    "longitude" : 133.772541,
+
+    "southWest" : { "lat": -43.656082, "lng": 112.015037 },
+
+    "northEast" : { "lat": -10.935978, "lng": 154.641985 },
+
+    "path" : "<%= path %>",
+
+    "radialResults" : 5,
+
+    "identities" : [{
+          "value": "0",
+          "label": "Aboriginal Civilians",
+          "tag": "Aboriginal_Civilians",
+          "selected": true
+        },{
+          "value": "1",
+          "label": "Aboriginal Warriors",
+          "tag": "Aboriginal_Warriors",
+          "selected": true
+        },{
+          "value": "2",
+          "label": "Military / Police / Government",
+          "tag": "Military_Police_Government",
+          "selected": true
+        },{
+          "value": "3",
+          "label": "Native Police",
+          "tag": "Native_Police",
+          "selected": true
+        },{
+          "value": "4",
+          "label": "Settlers / Stockmen",
+          "tag": "Settlers_Stockmen",
+          "selected": true
+        },{
+          "value": "5",
+          "label": "Colonial Civilians",
+          "tag": "Colonial_Civilians",
+          "selected": true
+        }],
+
+    "tips" : [{
+                "posX" : 0,
+                "posY" : 0,
+                "title" : "Explore and proximity mode",
+                "tip": "You can switch between explore and proximity modes. Proximity mode lets you view massacres in proximity to a location you have selected (either by using the postcode search feature or by tapping the geolocation button). In explore mode you can pan, zoom in or out, or reorientate the map to display incidents by state boundaries. In either mode click on a map marker to view more information about the massacres."
+            },{
+                "posX" : 0,
+                "posY" : 0,
+                "title" : "Filter panel toggle",
+                "tip" : "You can toggle the filter panel on and off. When the filter panel is open you can specify a date range, filter results by the number of fatalities, or display massacres in which certain groups were involved."
+            }],
+
+    "deaths": ["6 to 10", "11 to 20", "More than 20"],
+
+    "motivation": ["Retribution", "Opportunity", "Defence", "Dispersal", "Unknown"],
+
+    "specials": ["Aboriginal Civilians", "Aboriginal Warriors", "Military / Police / Government", "Native Police", "Settlers / Stockmen", "Colonial civilians"],
+
+    "bbox" : [{
+
+            "northEast" : { "lat": -10.935978, "lng": 154.641985 },
+
+            "southWest" : { "lat": -43.656082, "lng": 112.015037 }
+
+        }],
+
+    "social": {
+
+        "title" : "The Killing Times: a massacre map of Australia's frontier wars",
+
+        "url" : "",
+
+        "fbImg" : "https://i.guim.co.uk/img/media/c87aa28f1a03e77c01e6b9ad30a6ed020fad07f1/0_0_2000_1200/master/2000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&s=7cdd30f3def215679560b5fb119570dd",
+
+        "twImg" : "https://i.guim.co.uk/img/media/c87aa28f1a03e77c01e6b9ad30a6ed020fad07f1/0_0_2000_1200/master/2000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&s=7cdd30f3def215679560b5fb119570dd",
+
+        "twHash" : "#KillingTimes",
+
+        "message" : "This interactive tells the stories that have long been kept out of our history books. It shows evidence of mass killings from 1788 until 1927: a sustained and systematic process of conflict and expansion"
+
+    }
+}
