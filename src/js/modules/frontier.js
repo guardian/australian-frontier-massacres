@@ -524,9 +524,9 @@ export class Frontier {
 
                 self.database.first = false
 
-                self.database.logging = self.database.logging += `Proximity mode: ${self.database.proximity} | iSMobile: ${self.database.isMobile}<br/>`
+                self.database.logging = self.database.logging += `Proximity mode: ${self.database.proximity} | iSMobile: ${self.settings.isMobile}<br/>`
 
-                if (self.database.isMobile) {
+                if (self.settings.isMobile) {
 
                     self.database.logging = self.database.logging += "Mobile map clicked<br/>"
 
@@ -581,13 +581,11 @@ export class Frontier {
 
     appscroll() {
 
-        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
-
         var el = document.getElementById('map');
 
         el.ontouchstart = function(e){
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
 
@@ -596,7 +594,7 @@ export class Frontier {
 
         el.ontouchend = function(e){
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
 
@@ -700,9 +698,13 @@ export class Frontier {
         self.database.geolocation = ("geolocation" in navigator) ? true : false ;
 
         var geo_options = {
-          enableHighAccuracy: true, 
-          maximumAge        : 30000, 
-          timeout           : 27000
+
+          enableHighAccuracy : true, 
+
+          maximumAge : 30000, 
+
+          timeout : 27000
+
         };
 
         if (self.database.geolocation) {
@@ -1013,15 +1015,6 @@ export class Frontier {
 
         });
 
-        var tooltipTemplate = `<strong>{site}</strong><br />
-            <em>{date}</em><br /><br /> 
-            <strong>Motive:</strong> {motive}<br />
-            {aboriginal}<br />
-            {coloniser}<br /><br />
-            <div class="totaline"></div>
-            <strong>Total dead:</strong> {total}<br /><br />
-            <div class="readmore" data-id="{id}">Click on marker to read full description below</div>`;
-
         self.massacres.on('mouseover', (e) => {
 
             var id = e.layer.options.id
@@ -1042,7 +1035,7 @@ export class Frontier {
               id : id
             };
 
-            var tooltipContent = L.Util.template(tooltipTemplate, tooltipData); 
+            var tooltipContent = L.Util.template(self.settings.tooltipTemplate, tooltipData); 
 
             self.popup = L.popup().setLatLng(e.latlng).setContent(tooltipContent).openOn(self.map);
 
@@ -1104,21 +1097,15 @@ export class Frontier {
 
         var self = this
 
-        var massacre = self.googledoc.find( (item) => {
+        var massacre = self.googledoc.find( (item) => item.id === id);
 
-            return item.id === id
-
-        });
-
-        massacre.showLink = false,
+        massacre.showLink = false
 
         self.database.massacre = massacre
 
-         // console.log(self.database.massacre)
-
         self.ractive.set(self.database)
 
-        if (!self.database.isMobile) {
+        if (!self.settings.isMobile) {
 
             self.scrollTo($("#frontier-results"), 200)
 
@@ -1132,7 +1119,7 @@ export class Frontier {
 
         return new Promise((resolve, reject) => {
 
-            var data_one = self.googledoc.filter(function(item) {
+            var data_one = self.googledoc.filter((item) => {
 
                 if (item.year >= self.database.DateStart && item.year <= self.database.DateEnd) {
 
@@ -1142,11 +1129,9 @@ export class Frontier {
 
             });
 
-            var range = (self.database.filterDeaths === '6 to 10') ? [6,10] :
-            (self.database.filterDeaths === '11 to 20') ? [11,20] :
-            (self.database.filterDeaths === 'More than 20') ? [21,1000] : [0,1000] ;
+            var range = (self.database.filterDeaths === '6 to 10') ? [6,10] : (self.database.filterDeaths === '11 to 20') ? [11,20] : (self.database.filterDeaths === 'More than 20') ? [21,1000] : [0,1000] ;
 
-            var data_two = data_one.filter(function(item) {
+            var data_two = data_one.filter((item) => {
 
                 if (item.total_dead >= range[0] && item.total_dead <= range[1]) {
 
@@ -1156,19 +1141,17 @@ export class Frontier {
 
             })
 
-            var groups = ["Aboriginal Civilians", "Aboriginal Warriors", "Military / Police / Government", "Native Police", "Settlers / Stockmen", "Colonial civilians"]
-
             var identities = []
 
             for (var i = 0; i < self.database.specials.length; i++) {
 
-                var index = groups.indexOf(self.database.specials[i])
+                var index = self.settings.groups.indexOf(self.database.specials[i])
 
                 identities.push(index)
 
             }
 
-            var data_three = data_two.filter(function(item) {
+            var data_three = data_two.filter( (item) => {
 
                 if ( self.toolbelt.contains(item.identities, identities) ) {
 
@@ -1178,11 +1161,7 @@ export class Frontier {
 
             })
 
-            var data_four = (self.database.fatalities=='All') ? data_three : data_three.filter(function(item) {
-
-                return item.Primary_Victim_Group == self.database.fatalities
-
-            })
+            var data_four = (self.database.fatalities=='All') ? data_three : data_three.filter( (item) => item.Primary_Victim_Group == self.database.fatalities)
 
             self.database.records = data_four
 
@@ -1207,26 +1186,24 @@ export class Frontier {
             events: { tap: ractiveTap },
             template: modalTemplate,
             data: {
-                isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false 
+                isApp: self.settings.isApp
             }
         });
 
-        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
-
         var el = $('.modal-content');
 
-        el.ontouchstart = function(e){
+        el.ontouchstart = (e) => {
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
 
             }
         };
 
-        el.ontouchend = function(e){
+        el.ontouchend = (e) => {
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
 
@@ -1248,7 +1225,7 @@ export class Frontier {
             data: {
                 title: self.database.tips[self.database.currentTip].title,
                 tip: self.database.tips[self.database.currentTip].tip,
-                isApp: (window.location.origin === "file://" || window.location.origin === null) ? true : false,
+                isApp: self.settings.isApp,
                 showNext: true
             },
             template: tipsTemplate
@@ -1282,22 +1259,20 @@ export class Frontier {
 
         })
 
-        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
-
         var el = $('.details-container-inner');
 
-        el.ontouchstart = function(e){
+        el.ontouchstart = (e) => {
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
 
             }
         };
 
-        el.ontouchend = function(e){
+        el.ontouchend = (e) => {
 
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+            if (self.settings.isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
 
               window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
 
@@ -1311,7 +1286,7 @@ export class Frontier {
 
         var self = this
 
-        var data = self.googledoc.filter(function(d) { return d.idcfv === idcfv })
+        var data = self.googledoc.filter( (d) => d.idcfv === idcfv )
 
         if (data.length > 0) {
 

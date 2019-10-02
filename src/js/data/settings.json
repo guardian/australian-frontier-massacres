@@ -56,6 +56,9 @@
                 "tip" : "You can toggle the filter panel on and off. When the filter panel is open you can specify a date range, filter results by the number of fatalities, or display massacres in which certain groups were involved."
             }],
 
+
+    "groups" : ["Aboriginal Civilians", "Aboriginal Warriors", "Military / Police / Government", "Native Police", "Settlers / Stockmen", "Colonial civilians"],
+
     "deaths": ["6 to 10", "11 to 20", "More than 20"],
 
     "motivation": ["Retribution", "Opportunity", "Defence", "Dispersal", "Unknown"],
@@ -69,6 +72,8 @@
             "southWest" : { "lat": -43.656082, "lng": 112.015037 }
 
         }],
+
+    "tooltipTemplate" : "<strong>{site}</strong><br/><em>{date}</em><br /><br /><strong>Motive:</strong> {motive}<br />{aboriginal}<br/>{coloniser}<br /><br /><div class=\"totaline\"></div><strong>Total dead:</strong> {total}<br /><br /><div class=\"readmore\" data-id=\"{id}\">Click on marker to read full description below</div>",
 
     "social": {
 
