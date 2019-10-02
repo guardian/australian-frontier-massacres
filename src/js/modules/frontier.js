@@ -53,7 +53,7 @@ export class Frontier {
 
         var mapheight = self.settings.screenHeight
 
-        if (self.isMobile || window.location.origin === "file://" || window.location.origin === null) {
+        if (self.settings.isMobile || window.location.origin === "file://" || window.location.origin === null) {
 
             if (self.settings.screenWidth > self.settings.screenHeight) {
 
@@ -421,7 +421,7 @@ export class Frontier {
 
         this.ractive.on( 'social', function ( context, channel ) {
 
-            var shareURL = "https://www.theguardian.com/australia-news/ng-interactive/2019/mar/04/massacre-map-australia-the-killing-times-frontier-wars"
+            var shareURL = self.toolbelt.getShareUrl()
 
             let sharegeneral = share(self.settings.title, shareURL, self.settings.fbImg, '', self.settings.twHash, self.settings.message);
 
@@ -836,11 +836,7 @@ export class Frontier {
 
         }
 
-        self.database.records.sort( (a, b) => {
-
-            return a["distance"] - b["distance"]
-
-        });
+        self.database.records.sort( (a, b) => a["distance"] - b["distance"]);
 
         var mark = (self.database.records.length > 5) ? self.settings.radialResults : self.database.records.length ;
 
@@ -870,10 +866,7 @@ export class Frontier {
 
         if(self.map.hasLayer(self.rads)){
 
-            self.rads.eachLayer(
-                function(l){ 
-                    self.rads.removeLayer(l);
-            });
+            self.rads.eachLayer((l) => self.rads.removeLayer(l));
 
         }
 
@@ -885,10 +878,7 @@ export class Frontier {
 
         if(self.map.hasLayer(self.rads)){
 
-            self.rads.eachLayer(
-                function(l){ 
-                    self.rads.removeLayer(l);
-            });
+            self.rads.eachLayer((l) => self.rads.removeLayer(l));
 
         }
 
@@ -896,7 +886,7 @@ export class Frontier {
 
         var countdown = 0.5
 
-        if (self.database.proximity) { // self.database.radial
+        if (self.database.proximity) {
 
             for (var i = 0; i < self.database.topfive.length; i++) {
 
@@ -979,15 +969,11 @@ export class Frontier {
 
         }
 
-
         var self = this
 
         if (self.map.hasLayer(self.massacres)) {
 
-            self.massacres.eachLayer(
-                function(l){ 
-                    self.massacres.removeLayer(l);
-            });
+            self.massacres.eachLayer((l) => self.massacres.removeLayer(l));
         }
 
         self.array = [];

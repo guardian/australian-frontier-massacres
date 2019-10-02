@@ -6,7 +6,7 @@
 	box-sizing: border-box;
 	position: relative;
 	z-index: 99;
-	margin-top: 20px;
+	margin-top: 10px;
 	
 
 	@include mq($until: tablet) {
@@ -29,7 +29,10 @@
 
 	.involved {
 		display: inline-block;
-		padding: 10px;
+		padding-left: 10px;
+		padding-right: 4px;
+		padding-top:4px;
+		padding-bottom:4px;
 		background-color: red;
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
@@ -67,7 +70,10 @@
 
 	.outsiders {
 		display: inline-block;
-		padding: 10px;
+		padding-left: 10px;
+		padding-right: 4px;
+		padding-top:4px;
+		padding-bottom:4px;
 		background-color: #38454F;
 		color: white;
 		font-family: 'Guardian Text Sans Web', TextSans, Arial, sans-serif;
