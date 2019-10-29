@@ -436,6 +436,19 @@ export class Frontier {
             self.ractive.set(self.database)
         })
 
+        this.ractive.on( 'all', function ( context ) {
+
+            self.database.all = context.event.target.checked
+
+            self.getData().then( (data) => {
+
+                self.ractive.set(self.database)
+
+            })
+
+        });
+
+
         this.resize()
         
         this.googleizer()

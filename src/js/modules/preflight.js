@@ -178,6 +178,8 @@ export class Preflight {
 
         this.database = {
 
+            all: true,
+
             info: false,
 
             tips: self.settings.tips,

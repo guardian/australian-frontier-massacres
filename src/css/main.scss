@@ -29,6 +29,18 @@
 @import "preloader";
 @import "sidecar";
 @import "linked";
+@import 'node_modules/pretty-checkbox/src/pretty-checkbox.scss';
+
+.show-new {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.pretty {
+	font-size: 13px;
+	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+}
+
 
 html,
 body,
