@@ -1176,7 +1176,9 @@ export class Frontier {
 
             var data_four = (self.database.fatalities=='All') ? data_three : data_three.filter( (item) => item.Primary_Victim_Group == self.database.fatalities)
 
-            self.database.records = data_four
+            var data_five = (self.database.all) ? data_four : data_four.filter( (item) => item.new)
+
+            self.database.records = data_five
 
             self.topo()
 
