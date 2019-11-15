@@ -53,6 +53,7 @@
     "core-js": "^2.6.2",
     "element-position": "^0.3.8",
     "geojson-bbox": "0.0.0",
+    "google-maps": "^3.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^4.0.2",
