@@ -1,5 +1,5 @@
 import template from '../../templates/template.html'
-import modalTemplate from '../../templates/modal.html'
+import about from '../../templates/about.html'
 import tipsTemplate from '../../templates/tips.html'
 import palette from '../modules/palette'
 import { Toolbelt } from '../modules/toolbelt'
@@ -683,7 +683,7 @@ export class Frontier {
 
             self.database.tips[i].posX = pos.left - 100 + ( ( pos.right - pos.left) / 2 )
 
-            self.database.tips[i].posY = self.toolbelt.getOffsetTop(el) - 140
+            self.database.tips[i].posY = self.toolbelt.getOffsetTop(el) - 240
         }
 
         self.database.tipDisplay = true
@@ -1196,10 +1196,12 @@ export class Frontier {
 
     showAbout() {
 
+        var self = this
+
         var modal = new Modal({
             transitions: { fade: ractiveFade },
             events: { tap: ractiveTap },
-            template: modalTemplate,
+            template: about,
             data: {
                 isApp: self.settings.isApp
             }
