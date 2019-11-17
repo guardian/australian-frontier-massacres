@@ -423,7 +423,7 @@ export class Frontier {
 
             var shareURL = self.toolbelt.getShareUrl()
 
-            let sharegeneral = share(self.settings.title, shareURL, self.settings.fbImg, '', self.settings.twHash, self.settings.message);
+            let sharegeneral = share(self.settings.social.title, shareURL, self.settings.social.fbImg, '', self.settings.social.twHash, self.settings.social.message);
 
             sharegeneral(channel);
 

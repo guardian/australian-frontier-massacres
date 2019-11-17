@@ -4,9 +4,9 @@ const googleBaseUrl = 'https://plus.google.com/share?url=';
 export default function share(title, shareURL, fbImg, twImg, hashTag, FBmessage='') {
     var twImgText = twImg ? ` ${twImg.trim()} ` : ' ';
     return function (network, extra='') {
-        var twitterMessage = `${extra}${title}${twImgText}${hashTag}`;
+        var twitterMessage = `${title} ${hashTag}`;
         var shareWindow;
-
+        console.log(twitterMessage)
         if (network === 'twitter') {
             shareWindow = twitterBaseUrl + encodeURIComponent(twitterMessage + ' ') + shareURL;
         } else if (network === 'email') {
@@ -20,8 +20,6 @@ export default function share(title, shareURL, fbImg, twImg, hashTag, FBmessage=
         } else {
 
           if (FB) { //http://drib.tech/programming/dynamically-change-facebook-open-graph-meta-data-javascript
-
-            console.log("Initiated Facebook dynamic share stuff")
 
             FB.ui({
               method: 'share_open_graph',
