@@ -31,6 +31,12 @@
 @import "linked";
 @import 'node_modules/pretty-checkbox/src/pretty-checkbox.scss';
 
+.sources {
+    line-height: 1.5;
+    color: #333;
+    margin-top: 10px;
+}
+
 .show-new {
 	width: 100%;
 	margin-bottom: 20px;
