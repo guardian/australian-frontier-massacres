@@ -8,7 +8,7 @@ export default function share(title, shareURL, fbImg, twImg, hashTag, FBmessage=
         var shareWindow;
         console.log(twitterMessage)
         if (network === 'twitter') {
-            shareWindow = twitterBaseUrl + encodeURIComponent(twitterMessage + ' ') + shareURL;
+            shareWindow = twitterBaseUrl + encodeURIComponent(twitterMessage + ' ') + encodeURIComponent(shareURL);
         } else if (network === 'email') {
             shareWindow = 'mailto:?subject=' + encodeURIComponent(title) + '&body=' + shareURL;
         } else if (network === 'google') {
