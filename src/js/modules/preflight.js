@@ -163,7 +163,7 @@ export class Preflight {
             google.article = (google.Image!="") ? true : false ;
             google.AborigEst = self.estimizer('Aboriginal', google.Aborig_Dead_Min, google.Aborig_Dead_Max, google.Aborig_Dead_Mean)
             google.ColoniserEst = self.estimizer('Coloniser', google.Coloniser_Dead_Min, google.Coloniser_Dead_Max, google.Coloniser_Dead_Mean)
-            google.new = (google.new==='new') ? true : false ;
+            google.new = (google.new==='y') ? true : false ;
 
             for (var ii = 0; ii < self.settings.identities.length; ii++) {
 

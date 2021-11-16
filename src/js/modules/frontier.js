@@ -440,6 +440,8 @@ export class Frontier {
 
             self.database.all = context.event.target.checked
 
+            console.log(context.event.target.checked)
+
             self.getData().then( (data) => {
 
                 self.ractive.set(self.database)
