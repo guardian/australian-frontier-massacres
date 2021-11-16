@@ -38,13 +38,13 @@
 }
 
 .show-new {
-	width: 100%;
-	margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .pretty {
-	font-size: 13px;
-	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+    font-size: 13px;
+    font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 }
 
 
@@ -58,6 +58,12 @@ body,
     padding: 0;
 }
 
+p {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-family: "Guardian Text Egyptian Web",Georgia,serif;
+    line-height: 150%;
+}
 
 body, figure.interactive {
     margin: 0;
@@ -72,5 +78,41 @@ body, figure.interactive {
 
 
 #frontier_app {
-	width: 100%;
+    width: 100%;
+}
+
+.l-footer {
+    display: none;
+}
+
+h2 {
+    font-size: 20px;
+    line-height: 1.1em;
+    font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+    color: #a31a1c;
+    font-family: "Guardian Titlepiece", "GH Guardian Headline","Guardian Text Egyptian Web", Georgia,serif;
+}
+
+.involvement-filter .involved, .involvement-filter .outsiders {
+    line-height: 22px;
+    height: 30px;
+    border-radius: 15px;
+
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: white;
+    font-family: "Guardian Text Sans Web", TextSans, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.more-container .more-label, .mode-container .mode-label {
+    margin-left: 20px;
 }
